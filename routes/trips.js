@@ -10,10 +10,10 @@ router.post('/', (req, res, next) => {
         .catch((err) => res.sendStatus(500).json('did not add'))
 });
 
-router.get('/:tripId', (req, res) => {
-    let { tripId } = req.params;
-    getTrip(tripId)
-        .then((data) => res.sendStatus(201).json(data))
+router.get('/:trip_id', (req, res) => {
+    let { trip_id } = req.params;
+    getTrip(trip_id)
+        .then((data) => res.sendStatus(201).json(data.rows))
         .catch((err) => res.sendStatus(500).json('did not add'))
 });
 

@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     let { trip_id } = req.body;
     if (!trip_id) return res.sendStatus(400);
     getMessages(trip_id)
-        .then((data) => res.status(200).send(data))
+        .then((data) => res.status(200).send(data.rows))
         .catch(() => res.sendStatus(500))
 });
 

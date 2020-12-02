@@ -14,9 +14,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// app.use('/trips', tripsRoute);
-// app.use('/users', usersRoute);
-// app.use('/messages', messagesRoute);
+app.use('/trips', tripsRoute);
+app.use('/users', usersRoute);
+app.use('/messages', messagesRoute);
 // app.use('/comments', commentsRoute);
 
 app.get('/', (req, res) => {
