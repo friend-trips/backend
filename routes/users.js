@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
 router.get('/:user_id', (req, res) => {
     let { user_id } = req.params;
     getUser(user_id)
-        .then((data) => res.status(200).json(data))
+        .then((data) => res.status(200).json(data.rows))
         .catch((err) => {
             res.sendStatus(500);
         })
