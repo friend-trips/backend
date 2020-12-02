@@ -1,0 +1,23 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "express": "^4.15.2",
+        "pg": "^8.5.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/friend-trips/backend.git"
+    },
+    "author": "friendTrips Team",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/friend-trips/backend/issues"
+    },
+    "homepage": "https://github.com/friend-trips/backend#readme"
+}
