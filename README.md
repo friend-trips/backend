@@ -208,14 +208,14 @@ response sample
 ```
 request body value types
 {
-    trip_id = (Number),
+    message_id = (Number),
     user_id = (Number),
     comment = (String)
 }
 
 request sample
 {
-    "trip_id": 1.
+    "message_id": 1,
     "user_id": 1,
     "comment": "This place looks perfect"
 }
@@ -279,4 +279,30 @@ response sample
         ....
     ]
 }
+```
+
+<br /><br />
+
+## Endpoint:  (GET) /flights (in progress)
+```
+request body value types
+{
+    city_code = (String),
+    check_in_date = (Date, Format: YYYY - MM - DD),
+    check_out_date = (Date, Format: YYYY - MM - DD),
+    num_of_rooms = (Number),
+    num_of_guests = (Number),
+    is_best_rate = (Boolean),
+}
+
+request sample
+{
+    "city_code": SFO,
+    "check_in_date": 2020-11-07,
+    "check_out_date": 2020-11-14,
+    "num_of_rooms": 2,
+    "num_of_guests": 10,
+    "is_best_rate": true,
+}
+
 ```
