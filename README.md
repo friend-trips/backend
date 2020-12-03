@@ -4,24 +4,48 @@
 ## Endpoint:  (POST, GET) /trips
 ### sample POST /trips request
 ```
-request body {name = (String)}
+request body  value types
+{
+    name = (String)
+}
+
+request sample
 {
     "name": "spain trip"
 }
 
-request body {trip_id = (Number)}
+---------------------------
+
+request body  value types
+{
+    trip_id = (Number)
+}
+
+request sample
 {
     "trip_id": 1
 }
 ```
 ### sample GET /trips/:trip_id request (DO NOT USE)
 ```
-request params {trip_id = (Number)}
+request params  value types
+{
+    trip_id = (Number)
+}
+
+request sample
 {
     "trip_id": 1
 }
 
-request body {trip_id = (Number)}
+---------------------------
+
+request body  value types
+{
+    trip_id = (Number)
+}
+
+request sample
 {
     "name": "sample trip"
 }
@@ -31,7 +55,15 @@ request body {trip_id = (Number)}
 ## Endpoint:  (POST, GET) /users
 ### sample POST /users request
 ```
-request body {username = (String), password = (String), email = (String), trip_id (Number)}
+request body value types
+{
+    username = (String),
+    password = (String),
+    email = (String),
+    trip_id (Number)
+}
+
+request sample
 {
     "username": "sample_user",
     "password": "a_password1",
@@ -39,7 +71,16 @@ request body {username = (String), password = (String), email = (String), trip_i
     "trip_id": 1
 }
 
-response body {user_id = (Number), username = (String), trip_id = (Number)}
+---------------------------
+
+response body value types
+{
+    user_id = (Number),
+    username = (String),
+    trip_id = (Number)
+}
+
+response sample
 {
     user_id: 1,
     "username": "sample_user",
@@ -49,12 +90,27 @@ response body {user_id = (Number), username = (String), trip_id = (Number)}
 
 ### sample GET /users/:user_id request
 ```
-response params {user_id = (Number)}
+response params value types
+{
+    user_id = (Number)
+}
+
+response sample
 {
   user_id: 1
 }
 
-response body {trip_id = (Number), user_id = (Number), username = (String), email = (String)}
+---------------------------
+
+response body value types
+{
+    trip_id = (Number),
+    user_id = (Number),
+    username = (String),
+    email = (String)
+}
+
+response sample
 {
     "trip_id": 1,
     "user_id": 3,
@@ -68,14 +124,28 @@ response body {trip_id = (Number), user_id = (Number), username = (String), emai
 ### sample POST /messages request
 
 ```
-request body {user_id = (Number), trip_id = (Number), message = (String)}
+request body value types
+{
+    user_id = (Number),
+    trip_id = (Number),
+    message = (String)
+}
+
+request sample
 {
     "user_id": 1,
     "trip_id": 1,
     "message": "hello world"
 }
 
-response body {message_id = (Number)}
+---------------------------
+
+response body value types
+{
+    message_id = (Number)
+}
+
+response sample
 {
     "message_id": 1
 }
@@ -83,18 +153,30 @@ response body {message_id = (Number)}
 
 ### sample GET /messages request
 ```
-request body {trip_id = (Number)}
+request body value types
+{
+    trip_id = (Number)
+}
 
+request sample
 {
     "trip_id": 1,
 }
 
-response body {
-    message_id = (Number), user_id = (Number), username = (String)
-    trip_id = (Number), has_comments = (Number 0=false, 1=true), message = (String),
+---------------------------
+
+response body value types
+{
+    message_id = (Number),
+    user_id = (Number),
+    username = (String),
+    trip_id = (Number),
+    has_comments = (Number 0=false, 1=true),
+    message = (String),
     date = (Date)
 }
 
+response sample
 {
     [
         {
@@ -121,8 +203,80 @@ response body {
 ```
 <br /><br />
 
-## Endpoint:  (POST, GET) /messages
+## Endpoint:  (POST, GET) /comments
 ### sample POST /comments request
 ```
+request body value types
+{
+    trip_id = (Number),
+    user_id = (Number),
+    comment = (String)
+}
 
+request sample
+{
+    "trip_id": 1.
+    "user_id": 1,
+    "comment": "This place looks perfect"
+}
+
+---------------------------
+
+response body value types
+{
+    comment_id = (Number)
+}
+
+response sample
+{
+    "comment_id": 1,
+}
+```
+
+### sample GET /comments request
+```
+request body value types
+{
+    message_id = (Number)
+}
+
+request sample
+{
+    "message_id": 1,
+}
+
+---------------------------
+
+response body value types
+{
+    comment_id = (Number),
+    message_id =  (Number),
+    user_id =  (Number),
+    username =  (String),
+    comment =  (String),
+    date =  (Date),
+}
+
+response sample
+{
+    [
+        {
+            "comment_id": 1,
+            "message_id": 1,
+            "user_id": 1,
+            "username": "a user",
+            "comment": "Let's go to Spain afterward",
+            "date": "2020-12-02T00:00:00.000Z"
+        },
+        {
+            "comment_id": 2,
+            "message_id": 1,
+            "user_id": 2,
+            "username": "another user",
+            "comment": "Great idea!!",
+            "date": "2020-12-02T00:00:00.000Z"
+        },
+        ....
+    ]
+}
 ```
