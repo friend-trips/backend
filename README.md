@@ -167,12 +167,11 @@ request sample
 
 response body value types
 {
-    message_id = (Number),
     user_id = (Number),
     username = (String),
-    trip_id = (Number),
-    has_comments = (Number 0=false, 1=true),
+    message_id = (Number),
     message = (String),
+    has_comments = (Number 0=false, 1=true),
     date = (Date)
 }
 
