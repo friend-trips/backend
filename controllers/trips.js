@@ -4,7 +4,7 @@ module.exports = {
     createTrip: (name, cb) => {
         return new Promise((res, rej) => {
             let query = {
-                text: 'INSERT INTO trips(name) VALUES ($1)',
+                text: 'INSERT INTO trips(name) VALUES ($1) RETURNING trip_id',
                 values: [name],
             }
             db.query(query)
@@ -15,7 +15,7 @@ module.exports = {
     getTrip: (id, cb) => {
         return new Promise((res, rej) => {
             let query = {
-                text: 'SELECT * from trips WHERE id = ($1)',
+                text: 'SELECT * from trips WHERE trip_id = ($1)',
                 values: [id],
             }
             db.query(query)

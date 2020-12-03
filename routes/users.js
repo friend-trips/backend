@@ -7,7 +7,7 @@ router.post('/', (req, res) => {
     let { username, password, email, trip_id } = req.body;
     if (!username || !password || !email || !trip_id) return res.sendStatus(400).send('incorrect arguments');
     createUser(username, password, email, trip_id)
-        .then((data) => res.sendStatus(201))
+        .then((data) => res.status(201).send(data.rows[0]))
         .catch((err) => res.sendStatus(500))
 });
 
@@ -16,6 +16,7 @@ router.get('/:user_id', (req, res) => {
     getUser(user_id)
         .then((data) => res.status(200).json(data.rows))
         .catch((err) => {
+            console.log(err)
             res.sendStatus(500);
         })
 });
