@@ -6,7 +6,7 @@ module.exports = {
         return new Promise((res, rej) => {
             let date = moment().format().split('T')[0];
             let query = {
-                text: 'INSERT INTO messages(user_id, trip_id, has_comments, message, date) VALUES ($1, $2, $3, $4, $5)',
+                text: 'INSERT INTO messages(user_id, trip_id, has_comments, message, date) VALUES ($1, $2, $3, $4, $5) RETURNING message_id',
                 values: [user_id, trip_id, 0, message, date],
             }
             db.query(query)
