@@ -6,7 +6,7 @@ module.exports = {
         return new Promise((res, rej) => {
             let date = moment().format().split('T')[0];
             let query = {
-                text: 'INSERT INTO messages(user_id, trip_id, has_comments, message, date) VALUES ($1, $2, $3, $4, $5)',
+                text: 'INSERT INTO messages(user_id, trip_id, has_comments, message, date) VALUES ($1, $2, $3, $4, $5) RETURNING message_id',
                 values: [user_id, trip_id, 0, message, date],
             }
             db.query(query)
@@ -17,7 +17,7 @@ module.exports = {
     getMessages: (trip_id) => {
         return new Promise((res, rej) => {
             let query = {
-                text: 'SELECT * FROM messages WHERE trip_id = $1',
+                text: 'SELECT messages.user_id, users.username, messages.message_id, messages.message, messages.has_comments, messages.date FROM users, messages WHERE messages.user_id = users.user_id AND messages.trip_id = $1',
                 values: [trip_id]
             }
             db.query(query)
