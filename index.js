@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 app.use('/trips', tripsRoute);
 app.use('/users', usersRoute);
 app.use('/messages', messagesRoute);
-// app.use('/comments', commentsRoute);
+app.use('/comments', commentsRoute);
 
 app.get('/', (req, res) => {
     res.status(200).send('Hello friend!');

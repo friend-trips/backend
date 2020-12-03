@@ -34,7 +34,6 @@ DROP TABLE IF EXISTS comments;
 CREATE TABLE comments (
   comment_id SERIAL,
   message_id INTEGER,
-  suggestion_id INTEGER,
   user_id INTEGER,
   comment TEXT,
   date DATE,
