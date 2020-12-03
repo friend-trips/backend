@@ -6,7 +6,7 @@ router.post('/', (req, res, next) => {
     let { name } = req.body;
     if (!name) return res.sendStatus(400);
     createTrip(name)
-        .then((data) => res.sendStatus(201))
+        .then((data) => res.status(201).json(data.rows[0]))
         .catch((err) => res.sendStatus(500).json('did not add'))
 });
 
