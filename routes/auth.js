@@ -8,7 +8,7 @@ router.get('/check_user', (req, res) => {
         res.sendStatus(400);
     }
     let val = username || email;
-    let type = username !== undefined ? 'username:' : 'email';
+    let type = username !== undefined ? 'username' : 'email';
     checkUserExist(type, val)
         .then((data) => res.status(200).send(data))
         .catch((err) => {
