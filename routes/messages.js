@@ -6,8 +6,8 @@ router.post('/', (req, res, next) => {
     let { user_id, trip_id, message } = req.body;
     if (!user_id || !trip_id || !message) return res.sendStatus(400);
     createMessage(user_id, trip_id, message)
-        .then((data) => res.status(201).send(data.rows[0]))
-        .catch((err) => res.sendStatus(500))
+        .then((data) => res.status(201).send(data))
+        .catch((err) => res.status(500).send(err))
 });
 
 router.get('/', (req, res) => {
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
     if (!trip_id) return res.sendStatus(400);
     getMessages(trip_id)
         .then((data) => res.status(200).send(data.rows))
-        .catch(() => res.sendStatus(500))
+        .catch((err) => res.status(500).send(err))
 });
 
 // router.put('/:tripId', (req, res, next) => {

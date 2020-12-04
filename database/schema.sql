@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS trips;
 CREATE TABLE trips (
   trip_id SERIAL,
   name VARCHAR(20),
+  user_id INTEGER,
   PRIMARY KEY (trip_id)
 );
 
@@ -10,7 +11,6 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
   user_id SERIAL,
-  trip_id INTEGER,
   email VARCHAR(20),
   username VARCHAR(20),
   password VARCHAR(20),
@@ -26,6 +26,7 @@ CREATE TABLE messages (
   has_comments INT,
   message TEXT,
   date DATE,
+  time VARCHAR(10),
   PRIMARY KEY (message_id)
 );
 
@@ -37,5 +38,6 @@ CREATE TABLE comments (
   user_id INTEGER,
   comment TEXT,
   date DATE,
+  time VARCHAR(10),
   PRIMARY KEY (comment_id)
 );

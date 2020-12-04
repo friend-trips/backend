@@ -6,8 +6,8 @@ router.post('/', (req, res, next) => {
     let { message_id, user_id, comment } = req.body;
     if (!message_id || !user_id || !comment) return res.sendStatus(400);
     createComment(message_id, user_id, comment)
-        .then((data) => res.status(201).send(data.rows[0]))
-        .catch((err) => res.sendStatus(500))
+        .then((data) => res.status(201).send(data))
+        .catch((err) => res.status(500).send(err))
 });
 
 router.get('/', (req, res) => {
@@ -15,7 +15,8 @@ router.get('/', (req, res) => {
     if (!message_id) return res.sendStatus(400);
     getComments(message_id)
         .then((data) => res.status(200).send(data.rows))
-        .catch(() => res.sendStatus(500))
+        .catch((err) => res.status(500).send(err))
+
 });
 
 module.exports = router;

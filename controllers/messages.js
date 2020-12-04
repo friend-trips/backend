@@ -5,13 +5,27 @@ module.exports = {
     createMessage: (user_id, trip_id, message) => {
         return new Promise((res, rej) => {
             let date = moment().format().split('T')[0];
+            let time = moment().format('LT');
             let query = {
-                text: 'INSERT INTO messages(user_id, trip_id, has_comments, message, date) VALUES ($1, $2, $3, $4, $5) RETURNING message_id',
-                values: [user_id, trip_id, 0, message, date],
+                text: 'INSERT INTO messages(user_id, trip_id, has_comments, message, date, time) VALUES ($1, $2, $3, $4, $5, $6) RETURNING message_id',
+                values: [user_id, trip_id, 0, message, date, time],
             }
             db.query(query)
-                .then((data) => res(data))
-                .catch((err) => rej(err))
+                .then((results) => {
+                    let data = {
+                        trip_id: trip_id,
+                        user_id: user_id,
+                        message_id: results.rows[0].message_id,
+                        message: message,
+                        date: date,
+                        time: time,
+                    }
+                    res(data);
+                })
+                .catch((err) => {
+                    console.log(err)
+                    rej(err)
+                })
         })
     },
     getMessages: (trip_id) => {

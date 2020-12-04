@@ -60,7 +60,6 @@ request body value types
     username = (String),
     password = (String),
     email = (String),
-    trip_id (Number)
 }
 
 request sample
@@ -68,7 +67,6 @@ request sample
     "username": "sample_user",
     "password": "a_password1",
     "email": "sample@email.com",
-    "trip_id": 1
 }
 
 ---------------------------
