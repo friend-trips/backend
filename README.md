@@ -303,3 +303,33 @@ request sample
 }
 
 ```
+
+## Endpoint:  (GET) /auth/check_user
+```
+request body value types
+{
+    email = (String),
+    OR
+    username = (String),
+}
+
+request sample
+{
+   "email": "test@test.com"
+   OR
+   "username": "user1"
+}
+
+---------------------------
+
+response body value types
+{
+    message_id = (Number)
+}
+
+response sample
+{
+    "message_id": 1
+}
+
+```
