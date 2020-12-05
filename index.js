@@ -8,6 +8,7 @@ const usersRoute = require('./routes/users.js');
 const messagesRoute = require('./routes/messages.js');
 const commentsRoute = require('./routes/comments.js');
 const authRoute = require('./routes/auth.js');
+const flightsRoute = require('./routes/flights.js');
 
 app.use(express.json());
 app.use((req, res, next) => {
@@ -20,6 +21,7 @@ app.use('/users', usersRoute);
 app.use('/messages', messagesRoute);
 app.use('/comments', commentsRoute);
 app.use('/auth', authRoute);
+app.use('/flights', flightsRoute);
 
 app.get('/', (req, res) => {
     res.status(200).send('Hello friend!');
