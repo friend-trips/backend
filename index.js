@@ -27,7 +27,7 @@ app.use('/comments', commentsRoute);
 app.use('/auth', authRoute);
 app.use('/flights', flightsRoute);
 app.use('/hotels', hotelsRoute);
-app.use('/votes', votesRoute);
+app.use('/api/votes', votesRoute);
 
 app.get('/', (req, res) => {
     res.status(200).send('Hello friend!');

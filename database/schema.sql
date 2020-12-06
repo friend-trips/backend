@@ -106,3 +106,15 @@ CREATE TABLE hotels (
   time_created TEXT,
   PRIMARY KEY (suggestion_id)
 );
+
+DROP TABLE IF EXISTS votes;
+
+CREATE TABLE votes (
+    vote_id SERIAL,
+    suggestion_id TEXT,
+    user_id INTEGER,
+    trip_id INTEGER,
+    type TEXT,
+    num_value INTEGER,
+    PRIMARY KEY (vote_id)
+)
