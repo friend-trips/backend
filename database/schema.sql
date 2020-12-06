@@ -68,6 +68,7 @@ CREATE TABLE flights (
   downvotes INTEGER,
   time_created TEXT,
   type_of_flight TEXT,
+  abbreviated_carrier_code TEXT,
   total_price TEXT,
   PRIMARY KEY (id)
 );

@@ -3,11 +3,10 @@ const router = express.Router({ 'caseSensitive': true });
 const { createFlightSuggestion, getAllFlights , generateFakeData} = require('../controllers/flights.js');
 
 router.post('/', (req, res, next) => {
-    console.log('ehllo');
     createFlightSuggestion(req.body)
         .then((data) => res.status(201).send(data))
         .catch((err) => {
-            console.log(err)
+            console.log('err')
             res.status(500).send(err)
         })
 });

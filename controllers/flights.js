@@ -15,6 +15,8 @@ module.exports = {
                 returning.suggestion_id = outgoing.flight_number + returning.flight_number + meta.user_id;
                 outgoing.upvotes = 0;
                 returning.upvotes = 0;
+                outgoing.downvotes = 0;
+                returning.downvotes = 0;
                 let time = `${Date.now()}`;
                 outgoing.time_created = time;
                 returning.time_created = time;
@@ -38,7 +40,7 @@ module.exports = {
 
                 let outgoingQuery = inserter('flights', outgoing);
                 let returningQuery = inserter('flights', returning);
-                console.log(outgoingQuery);
+                console.log(returningQuery)
 
                 db.query(outgoingQuery)
                 .then((outgoingData) => {
