@@ -16,7 +16,6 @@ module.exports = {
                         message_id: results.rows[0].message_id,
                         message: message,
                         date: date,
-                        time: time,
                     }
                     res(data);
                 })
