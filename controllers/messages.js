@@ -12,7 +12,6 @@ module.exports = {
                     res(results.rows[0]);
                 })
                 .catch((err) => {
-                    console.log(err)
                     rej(err)
                 })
         })

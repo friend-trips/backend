@@ -5,7 +5,7 @@ const { createComment, getComments } = require('../controllers/comments.js');
 router.post('/', (req, res, next) => {
     let { message_id, user_id, comment } = req.body;
     if (!message_id || !user_id || !comment) return res.sendStatus(400);
-    createComment(message_id, user_id, comment)
+    createComment(req.body)
         .then((data) => res.status(201).send(data))
         .catch((err) => res.status(500).send(err))
 });
