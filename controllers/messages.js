@@ -1,23 +1,15 @@
 const db = require('../database/index.js');
+const {inserter, selectAll} = require('./queries.js');
 
 module.exports = {
-    createMessage: (user_id, trip_id, message) => {
+    createMessage: (messageData) => {
         return new Promise((res, rej) => {
-            let date = `${Date.now()}`;
-            let query = {
-                text: 'INSERT INTO messages(user_id, trip_id, has_comments, message, date) VALUES ($1, $2, $3, $4, $5) RETURNING message_id',
-                values: [user_id, trip_id, 0, message, date],
-            }
-            db.query(query)
+            messageData.timestamp = `${Date.now()}`;
+            messageData.has_comments = 0;
+            let messageQuery = inserter('messages', messageData);
+            db.query(messageQuery)
                 .then((results) => {
-                    let data = {
-                        trip_id: trip_id,
-                        user_id: user_id,
-                        message_id: results.rows[0].message_id,
-                        message: message,
-                        date: date,
-                    }
-                    res(data);
+                    res(results.rows[0]);
                 })
                 .catch((err) => {
                     console.log(err)

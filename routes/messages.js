@@ -5,7 +5,7 @@ const { createMessage, getMessages, updateMessage, deleteMessage } = require('..
 router.post('/', (req, res, next) => {
     let { user_id, trip_id, message } = req.body;
     if (!user_id || !trip_id || !message) return res.sendStatus(400);
-    createMessage(user_id, trip_id, message)
+    createMessage(req.body)
         .then((data) => res.status(201).send(data))
         .catch((err) => res.status(500).send(err))
 });

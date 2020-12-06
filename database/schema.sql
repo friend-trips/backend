@@ -25,8 +25,7 @@ CREATE TABLE messages (
   trip_id INTEGER,
   has_comments INT,
   message TEXT,
-  date DATE,
-  time VARCHAR(10),
+  timestamp TEXT,
   PRIMARY KEY (message_id)
 );
 
