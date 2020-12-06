@@ -1,5 +1,7 @@
 const db = require('../database/index.js');
 const {inserter, selectAll} = require('./queries.js');
+const {getVotes} = require('./votes.js');
+
 
 module.exports = {
     createFlightSuggestion: (data) => {
@@ -56,74 +58,102 @@ module.exports = {
         })
     },
     getAllFlights: (trip_id) => {
-        return new Promise((res, rej) => {
+        return new Promise((resolve, reject) => {
         let query = {
             text: 'SELECT flights.*, users.username FROM flights, users WHERE trip_id = $1 AND users.user_id = flights.user_id',
             values: [trip_id]
         };
 
-        db.query(query)
-        .then(({rows}) => {
-            let dict = {};
-            for (flight of rows) {
-                let flight_class = flight.class;
-                let {trip_id,
-                    suggestion_id,
-                    user_id,
-                    username,
-                    nonstop,
-                    is_suggested,
-                    is_saved,
-                    flight_number,
-                    duration,
-                    arrival_airport,
-                    arrival_time,
-                    departure_airport,
-                    departure_time,
-                    departure_date,
-                    number_of_stops,
-                    carrier_code,
-                    operating_carrier_code,
-                    adults,
-                    upvotes,
-                    downvotes,
-                    time_created,
-                    type_of_flight,
-                    abbreviated_carrier_code,
-                    total_price
-                } = flight;
-                dict[suggestion_id] = dict[suggestion_id] || {meta:{}};
-                dict[suggestion_id].meta.suggestion_id = suggestion_id;
-                dict[suggestion_id].meta.user_id = user_id;
-                dict[suggestion_id].meta.username = username;
-                dict[suggestion_id].meta.is_saved = is_saved;
-                dict[suggestion_id].meta.is_suggested = is_suggested;
-                dict[suggestion_id].meta.total_price = total_price;
-                dict[suggestion_id].meta.adults = adults;
-                dict[suggestion_id].meta.nonstop = nonstop;
-                dict[suggestion_id].meta.upvotes = upvotes;
-                dict[suggestion_id].meta.downvotes = downvotes;
-                dict[suggestion_id].meta.time_created = time_created;
+        getVotes(trip_id)
+            .then((voteData) => {
+                voteData = voteData.rows;
+                db.query(query)
+                .then(({rows}) => {
+                    let dict = {};
+                    for (flight of rows) {
+                        let flight_class = flight.class;
+                        let {trip_id,
+                            suggestion_id,
+                            user_id,
+                            username,
+                            nonstop,
+                            is_suggested,
+                            is_saved,
+                            flight_number,
+                            duration,
+                            arrival_airport,
+                            arrival_time,
+                            departure_airport,
+                            departure_time,
+                            departure_date,
+                            number_of_stops,
+                            carrier_code,
+                            operating_carrier_code,
+                            adults,
+                            upvotes,
+                            downvotes,
+                            time_created,
+                            type_of_flight,
+                            abbreviated_carrier_code,
+                            total_price
+                        } = flight;
+                        dict[suggestion_id] = dict[suggestion_id] || {meta:{}};
+                        dict[suggestion_id].meta.suggestion_id = suggestion_id;
+                        dict[suggestion_id].meta.user_id = user_id;
+                        dict[suggestion_id].meta.username = username;
+                        dict[suggestion_id].meta.is_saved = is_saved;
+                        dict[suggestion_id].meta.is_suggested = is_suggested;
+                        dict[suggestion_id].meta.total_price = total_price;
+                        dict[suggestion_id].meta.adults = adults;
+                        dict[suggestion_id].meta.nonstop = nonstop;
+                        dict[suggestion_id].meta.upvotes = upvotes;
+                        dict[suggestion_id].meta.downvotes = downvotes;
+                        dict[suggestion_id].meta.time_created = time_created;
 
-                dict[suggestion_id][type_of_flight] = dict[suggestion_id][type_of_flight] || {};
-                dict[suggestion_id][type_of_flight].duration = duration;
-                dict[suggestion_id][type_of_flight].arrival_airport = arrival_airport;
-                dict[suggestion_id][type_of_flight].arrival_time = arrival_time;
-                dict[suggestion_id][type_of_flight].departure_airport = departure_airport;
-                dict[suggestion_id][type_of_flight].departure_time = departure_time;
-                dict[suggestion_id][type_of_flight].departure_date = departure_date;
-                dict[suggestion_id][type_of_flight].number_of_stops = number_of_stops;
-                dict[suggestion_id][type_of_flight].carrier_code = carrier_code;
-                dict[suggestion_id][type_of_flight].operating_carrier_code = operating_carrier_code;
-                dict[suggestion_id][type_of_flight].class = flight_class;
-                dict[suggestion_id][type_of_flight].abbreviated_carrier_code = abbreviated_carrier_code;
-            }
-            res(dict);
-        })
-        .catch((err) => {
-            console.log('error', err);
-            rej(err)
-        })
+                        dict[suggestion_id][type_of_flight] = dict[suggestion_id][type_of_flight] || {};
+                        dict[suggestion_id][type_of_flight].duration = duration;
+                        dict[suggestion_id][type_of_flight].arrival_airport = arrival_airport;
+                        dict[suggestion_id][type_of_flight].arrival_time = arrival_time;
+                        dict[suggestion_id][type_of_flight].departure_airport = departure_airport;
+                        dict[suggestion_id][type_of_flight].departure_time = departure_time;
+                        dict[suggestion_id][type_of_flight].departure_date = departure_date;
+                        dict[suggestion_id][type_of_flight].number_of_stops = number_of_stops;
+                        dict[suggestion_id][type_of_flight].carrier_code = carrier_code;
+                        dict[suggestion_id][type_of_flight].operating_carrier_code = operating_carrier_code;
+                        dict[suggestion_id][type_of_flight].class = flight_class;
+                        dict[suggestion_id][type_of_flight].abbreviated_carrier_code = abbreviated_carrier_code;
+                    }
+
+                    for (let votes of voteData) {
+                        let {
+                            suggestion_id,
+                            user_id,
+                            username,
+                            num_value,
+                            type,
+                        } = votes;
+                        if(type === '+') {
+                            dict[suggestion_id].meta.upvotes += 1;
+                            dict[suggestion_id].meta.upvote_names = dict[suggestion_id].meta.upvote_names || [];
+                            dict[suggestion_id].meta.upvote_names.push(username);
+                        } else if(type === '-') {
+                            dict[suggestion_id].meta.downvotes += 1;
+                            dict[suggestion_id].meta.downvote_names = dict[suggestion_id].meta.downvote_names || [];
+                            dict[suggestion_id].meta.downvote_names.push(username);
+                        };
+                    }
+
+                    resolve(dict);
+                })
+                .catch((err) => {
+                    console.log('error', err);
+                    reject(err)
+                })
+
+            })
+            .catch((err) => reject())
+
+
     })
     },
     generateFakeData: () => {

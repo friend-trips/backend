@@ -6,7 +6,6 @@ router.post('/', (req, res, next) => {
     createFlightSuggestion(req.body)
         .then((data) => res.status(201).send(data))
         .catch((err) => {
-            console.log('err')
             res.status(500).send(err)
         })
 });

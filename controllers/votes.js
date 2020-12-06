@@ -1,5 +1,5 @@
 const db = require('../database/index.js');
-const {inserter, selectAll} = require('./queries.js');
+const {inserter, selectAll, selectAllWithUsernames} = require('./queries.js');
 
 module.exports = {
     addVote: (voteData) => {
@@ -21,7 +21,7 @@ module.exports = {
     },
     getVotes: (trip_id) => {
         return new Promise((resolve, reject) => {
-            let query = selectAll('votes', 'trip_id', trip_id);
+            let query = selectAllWithUsernames('votes', 'trip_id', trip_id);
             db.query(query)
                 .then((returnedData) => {
                     resolve(returnedData)
