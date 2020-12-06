@@ -12,12 +12,11 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    let { trip_id, user_id } = req.body;
-
-    getAllFlights(trip_id)
+    let {trip_id} = req.query;
+    if(!trip_id) return res.status(400).send('add trip_id');
+    getAllFlights(Number(trip_id))
         .then((data) => res.status(200).send(data))
         .catch((err) => res.status(500).send(err))
-
 });
 
 router.get('/data', (req, res, next) => {
