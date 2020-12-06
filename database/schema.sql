@@ -41,3 +41,31 @@ CREATE TABLE comments (
   time VARCHAR(10),
   PRIMARY KEY (comment_id)
 );
+
+DROP TABLE IF EXISTS flights;
+
+CREATE TABLE flights (
+  id SERIAL,
+  trip_id INTEGER,
+  flight_id TEXT,
+  user_id INTEGER,
+  non_stop TEXT,
+  is_suggested VARCHAR(6),
+  is_saved VARCHAR(6),
+  duration  TEXT,
+  arrival_airport  TEXT,
+  arrival_time  TEXT,
+  departure_airport  TEXT,
+  departure_time  TEXT,
+  departure_date  TEXT,
+  number_of_stops  INTEGER,
+  carrier_code  TEXT,
+  operating_carrier_code  TEXT,
+  class  TEXT,
+  adults INTEGER,
+  upvotes INTEGER,
+  downvotes INTEGER,
+  time_created TEXT,
+  type_of_flight TEXT,
+  PRIMARY KEY (id)
+);
