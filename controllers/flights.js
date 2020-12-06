@@ -1,12 +1,6 @@
 const db = require('../database/index.js');
 const {inserter, selectAll} = require('./queries.js');
 
-//take two things in.
-//query for all with the trip id
-//object with the specific id
-//add objects
-//and return
-
 module.exports = {
     createFlightSuggestion: (data) => {
         return new Promise((resolve, reject) => {
@@ -40,7 +34,6 @@ module.exports = {
 
                 let outgoingQuery = inserter('flights', outgoing);
                 let returningQuery = inserter('flights', returning);
-                console.log(returningQuery)
 
                 db.query(outgoingQuery)
                 .then((outgoingData) => {
@@ -65,7 +58,7 @@ module.exports = {
     getAllFlights: (trip_id) => {
         return new Promise((res, rej) => {
         let query = {
-            text: 'SELECT * FROM flights WHERE trip_id = $1',
+            text: 'SELECT flights.*, users.username FROM flights, users WHERE trip_id = $1 AND users.user_id = flights.user_id',
             values: [trip_id]
         };
 
@@ -73,8 +66,57 @@ module.exports = {
         .then(({rows}) => {
             let dict = {};
             for (flight of rows) {
-                dict[flight.flight_id] = dict[flight.flight_id] || {};
-                dict[flight.flight_id][flight.type_of_flight] = flight;
+                let flight_class = flight.class;
+                let {trip_id,
+                    suggestion_id,
+                    user_id,
+                    username,
+                    nonstop,
+                    is_suggested,
+                    is_saved,
+                    flight_number,
+                    duration,
+                    arrival_airport,
+                    arrival_time,
+                    departure_airport,
+                    departure_time,
+                    departure_date,
+                    number_of_stops,
+                    carrier_code,
+                    operating_carrier_code,
+                    adults,
+                    upvotes,
+                    downvotes,
+                    time_created,
+                    type_of_flight,
+                    abbreviated_carrier_code,
+                    total_price
+                } = flight;
+                dict[suggestion_id] = dict[suggestion_id] || {meta:{}};
+                dict[suggestion_id].meta.suggestion_id = suggestion_id;
+                dict[suggestion_id].meta.user_id = user_id;
+                dict[suggestion_id].meta.username = username;
+                dict[suggestion_id].meta.is_saved = is_saved;
+                dict[suggestion_id].meta.is_suggested = is_suggested;
+                dict[suggestion_id].meta.total_price = total_price;
+                dict[suggestion_id].meta.adults = adults;
+                dict[suggestion_id].meta.nonstop = nonstop;
+                dict[suggestion_id].meta.upvotes = upvotes;
+                dict[suggestion_id].meta.downvotes = downvotes;
+                dict[suggestion_id].meta.time_created = time_created;
+
+                dict[suggestion_id][type_of_flight] = dict[suggestion_id][type_of_flight] || {};
+                dict[suggestion_id][type_of_flight].duration = duration;
+                dict[suggestion_id][type_of_flight].arrival_airport = arrival_airport;
+                dict[suggestion_id][type_of_flight].arrival_time = arrival_time;
+                dict[suggestion_id][type_of_flight].departure_airport = departure_airport;
+                dict[suggestion_id][type_of_flight].departure_time = departure_time;
+                dict[suggestion_id][type_of_flight].departure_date = departure_date;
+                dict[suggestion_id][type_of_flight].number_of_stops = number_of_stops;
+                dict[suggestion_id][type_of_flight].carrier_code = carrier_code;
+                dict[suggestion_id][type_of_flight].operating_carrier_code = operating_carrier_code;
+                dict[suggestion_id][type_of_flight].class = flight_class;
+                dict[suggestion_id][type_of_flight].abbreviated_carrier_code = abbreviated_carrier_code;
             }
             res(dict);
         })
@@ -130,27 +172,3 @@ module.exports = {
         })
     },
 }
-
-// flight_id SERIAL,
-// trip_id INTEGER,
-// unique_id VARCHAR(20),
-// user_id INTEGER,
-// non_stop VARCHAR(20),
-// is_suggested VARCHAR(6),
-// is_saved VARCHAR(6),
-// duration  VARCHAR(20),
-// arrival_airport  VARCHAR(20),
-// arrival_time  VARCHAR(20),
-// departure_airport  VARCHAR(20),
-// departure_time  VARCHAR(20),
-// departure_date  VARCHAR(20),
-// number_of_stops  INTEGER,
-// carrier_code  VARCHAR(20),
-// operating_carrier_code  VARCHAR(20),
-// class  VARCHAR(20),
-// adults INTEGER,
-// upvotes INTEGER,
-// downvotes INTEGER,
-// time_created VARCHAR(20),
-
-// INSERT INTO flights (trip_id, unique_id, user_id, non_stop, is_suggested, is_saved, duration, arrival_airport, arrival_time, departure_airport, departure_time, departure_date, number_of_stops, carrier_code, operating_carrier_code, class, adults, upvotes, downvotes, time_created) VALUES (1, '123', 1, 'yes', 'bool', 'bool', 'duration', 'arrival_airport', 'arrival_time', 'departure_airport', 'departure_time', 'departure_date', 1, 'carrier_code', 'operating_carrier', 'class', 1, 0, 0, 'time_created')
