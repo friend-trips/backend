@@ -5,8 +5,8 @@ module.exports = {
         return new Promise((res, rej) => {
             let date = `${Date.now()}`;
             let query = {
-                text: 'INSERT INTO messages(user_id, trip_id, has_comments, message, date, time) VALUES ($1, $2, $3, $4, $5, $6) RETURNING message_id',
-                values: [user_id, trip_id, 0, message, date, time],
+                text: 'INSERT INTO messages(user_id, trip_id, has_comments, message, date) VALUES ($1, $2, $3, $4, $5) RETURNING message_id',
+                values: [user_id, trip_id, 0, message, date],
             }
             db.query(query)
                 .then((results) => {
