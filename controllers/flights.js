@@ -1,4 +1,5 @@
 const db = require('../database/index.js');
+const {inserter, selectAll} = require('./queries.js');
 
 //take two things in.
 //query for all with the trip id
@@ -8,38 +9,55 @@ const db = require('../database/index.js');
 
 module.exports = {
     createFlightSuggestion: (data) => {
-        return new Promise((res, rej) => {
+        return new Promise((resolve, reject) => {
             let {outgoing, returning, meta} = data;
-            meta.flight_id = outgoing.flight_number + returning.flight_number + meta.user_id;
-            meta.upvotes = 0;
-            meta.downvotes = 0;
-            meta.time_created = `${Date.now()}`;
+                outgoing.suggestion_id = outgoing.flight_number + returning.flight_number + meta.user_id;
+                returning.suggestion_id = outgoing.flight_number + returning.flight_number + meta.user_id;
+                outgoing.upvotes = 0;
+                returning.upvotes = 0;
+                let time = `${Date.now()}`;
+                outgoing.time_created = time;
+                returning.time_created = time;
+                outgoing.type_of_flight = 'outgoing';
+                returning.type_of_flight = 'returning';
+                outgoing.total_price = meta.total_price;
+                returning.total_price = meta.total_price;
 
-            let outgoing_query = {
-                text: 'INSERT INTO flights(trip_id, flight_id, user_id, non_stop, is_suggested, is_saved, duration, arrival_airport, arrival_time, departure_airport, departure_time, departure_date, number_of_stops, carrier_code, operating_carrier_code, class, adults, upvotes, downvotes, time_created, type_of_flight) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)',
-                values: [meta.trip_id, meta.flight_id, meta.user_id, meta.non_stop, meta.is_suggested, meta.is_saved, outgoing.duration, outgoing.arrival_airport, outgoing.arrival_time, outgoing.departure_airport, outgoing.departure_time, outgoing.departure_date, outgoing.number_of_stops, outgoing.carrier_code, outgoing.operating_carrier_code, outgoing.class, meta.adults, meta.upvotes, meta.downvotes, meta.time_created, 'outgoing']
-            };
+                outgoing.trip_id = meta.trip_id;
+                returning.trip_id = meta.trip_id;
+                outgoing.user_id = meta.user_id;
+                returning.user_id = meta.user_id;
+                outgoing.adults = meta.adults;
+                returning.adults = meta.adults;
+                outgoing.nonstop = meta.nonstop;
+                returning.nonstop = meta.nonstop;
+                outgoing.is_suggested = meta.is_suggested;
+                returning.is_suggested = meta.is_suggested;
+                outgoing.is_saved = meta.is_saved;
+                returning.is_saved = meta.is_saved;
 
-            let returning_query = {
-                text: 'INSERT INTO flights(trip_id, flight_id, user_id, non_stop, is_suggested, is_saved, duration, arrival_airport, arrival_time, departure_airport, departure_time, departure_date, number_of_stops, carrier_code, operating_carrier_code, class, adults, upvotes, downvotes, time_created, type_of_flight) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)',
-                values: [meta.trip_id, meta.flight_id, meta.user_id, meta.non_stop, meta.is_suggested, meta.is_saved, returning.duration, returning.arrival_airport, returning.arrival_time, returning.departure_airport, returning.departure_time, returning.departure_date, returning.number_of_stops, returning.carrier_code, returning.operating_carrier_code, returning.class, meta.adults, meta.upvotes, meta.downvotes, meta.time_created, 'returning']
-            };
+                let outgoingQuery = inserter('flights', outgoing);
+                let returningQuery = inserter('flights', returning);
+                console.log(outgoingQuery);
 
-            db.query(outgoing_query)
-            .then((results) => {
-                db.query(returning_query)
-                .then((results) => {
-                    res(data);
+                db.query(outgoingQuery)
+                .then((outgoingData) => {
+                    console.log(outgoingData);
+                    db.query(returningQuery)
+                        .then((returningData) => {
+                            let data = {
+                                meta: meta,
+                                outgoing: outgoing,
+                                returning: outgoing,
+                            }
+                            resolve(data);
+                        })
+                        .catch((err) => reject(err))
                 })
                 .catch((err) => {
-                    console.log('error', err);
-                    rej(err)
+                    reject(err);
                 })
-            })
-            .catch((err) => {
-                console.log('error', err);
-                rej(err)
-            })
+
         })
     },
     getAllFlights: (trip_id) => {
