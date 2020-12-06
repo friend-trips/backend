@@ -69,3 +69,37 @@ CREATE TABLE flights (
   type_of_flight TEXT,
   PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS hotels;
+
+CREATE TABLE hotels (
+  hotel_id SERIAL,
+  trip_id INTEGER,
+  user_id INTEGER,
+  check_in_date TEXT,
+  check_out_date TEXT,
+  room_quanity INTEGER,
+  adults INTEGER,
+  hotel_name TEXT,
+  hotel_address TEXT,
+  city_code TEXT,
+  rating INTEGER,
+  amenities TEXT,
+  price INTEGER,
+  number_of_reviews INTEGER,
+  number_of_ratings INTEGER,
+  overall_ratings INTEGER,
+  sleep_quality_rating INTEGER,
+  service_rating INTEGER,
+  facilities_rating INTEGER,
+  room_comforts_rating INTEGER,
+  value_for_money_rating INTEGER,
+  catering_rating INTEGER,
+  location_rating INTEGER,
+  points_of_interest_rating  INTEGER,
+  staff_rating  INTEGER,
+  upvotes INTEGER,
+  downvotes INTEGER,
+  time_created TEXT,
+  PRIMARY KEY (hotel_id)
+);
