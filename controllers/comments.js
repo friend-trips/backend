@@ -17,22 +17,20 @@ module.exports = {
                 })
         })
     },
-    getComments: (message_id) => {
-        return new Promise((res, rej) => {
-            let query = {
-                text: 'SELECT comments.user_id, users.username, comments.comment_id, comments.comment, comments.date FROM users, comments WHERE comments.user_id = users.user_id AND comments.message_id = $1',
-                values: [message_id]
-            }
-            db.query(query)
-                .then((data) => res(data))
-                .catch((err) => {
-                    rej(err)
-                })
+    getComments: ({message_id}) => {
+        return new Promise((resolve, reject) => {
+            let getCommentQuery = selectAll('comments', 'message_id', message_id)
+            db.query(getCommentQuery)
+                .then((commentData) => resolve(commentData.rows))
+                .catch((err) => reject(err))
         })
     },
-    getAllComments: (trip_id) => {
+    getAllComments: ({trip_id}) => {
         return new Promise((resolve, reject) => {
-
+            let query = selectAllWithUsernames('comments', 'trip_id', Number(trip_id))
+            db.query(query)
+                .then((commentsData) => resolve(commentsData.rows))
+                .catch((err) => reject(err))
         })
     },
 }

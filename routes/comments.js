@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router({ 'caseSensitive': true });
-const { createComment, getComments } = require('../controllers/comments.js');
+const { createComment, getComments , getAllComments} = require('../controllers/comments.js');
 
 router.post('/', (req, res, next) => {
     let { message_id, user_id, comment } = req.body;
@@ -11,12 +11,19 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    let { message_id } = req.body;
-    if (!message_id) return res.sendStatus(400);
-    getComments(message_id)
-        .then((data) => res.status(200).send(data.rows))
-        .catch((err) => res.status(500).send(err))
+    if(req.query.trip_id) {
+        getAllComments(req.query)
+            .then((data) => res.status(200).send(data))
+            .catch((err) => res.status(500).send(err))
 
+    } else if(req.query.message_id) {
+        getComments(req.query)
+            .then((data) => res.status(200).send(data))
+            .catch((err) => res.status(500).send(err))
+
+    } else {
+        res.sendStatus(400);
+    }
 });
 
 module.exports = router;

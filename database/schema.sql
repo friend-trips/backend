@@ -34,10 +34,10 @@ DROP TABLE IF EXISTS comments;
 CREATE TABLE comments (
   comment_id SERIAL,
   message_id INTEGER,
+  trip_id INTEGER,
   user_id INTEGER,
   comment TEXT,
-  date DATE,
-  time VARCHAR(10),
+  timestamp TEXT,
   PRIMARY KEY (comment_id)
 );
 
