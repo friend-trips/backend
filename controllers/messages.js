@@ -1,5 +1,5 @@
 const db = require('../database/index.js');
-const {inserter, selectAll} = require('./queries.js');
+const {inserter, selectAll, selectAllWithUsernames} = require('./queries.js');
 
 module.exports = {
     createMessage: (messageData) => {
@@ -17,14 +17,11 @@ module.exports = {
         })
     },
     getMessages: (trip_id) => {
-        return new Promise((res, rej) => {
-            let query = {
-                text: 'SELECT messages.user_id, users.username, messages.message_id, messages.message, messages.has_comments, messages.date, messages.time FROM users, messages WHERE messages.user_id = users.user_id AND messages.trip_id = $1',
-                values: [trip_id]
-            }
+        return new Promise((resolve, reject) => {
+            let query = selectAllWithUsernames('messages', 'trip_id', trip_id);
             db.query(query)
-                .then((data) => res(data))
-                .catch((err) => rej(err))
+                .then((data) => resolve(data.rows))
+                .catch((err) => reject(err))
         })
     }
     //TODO

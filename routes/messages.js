@@ -11,19 +11,14 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    let { trip_id } = req.body;
-    if (!trip_id) return res.sendStatus(400);
-    getMessages(trip_id)
-        .then((data) => res.status(200).send(data.rows))
-        .catch((err) => res.status(500).send(err))
-});
-
-// router.put('/:tripId', (req, res, next) => {
-//     res.send('hello');
-// });
-
-// router.delete('/:tripId', (req, res, next) => {
-//     res.send('hello');
-// });
+    if(req.query.trip_id) {
+        let {trip_id} = req.query;
+        getMessages(trip_id)
+            .then((data) => res.status(200).send(data))
+            .catch((err) => res.status(500).send(err))
+    } else {
+        res.sendStatus(400);
+    }
+})
 
 module.exports = router;
