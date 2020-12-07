@@ -75,7 +75,8 @@ CREATE TABLE flights (
 DROP TABLE IF EXISTS hotels;
 
 CREATE TABLE hotels (
-  suggestion_id SERIAL,
+  hotel_id SERIAL,
+  suggestion_id TEXT,
   trip_id INTEGER,
   user_id INTEGER,
   check_in_date TEXT,
@@ -103,7 +104,7 @@ CREATE TABLE hotels (
   upvotes INTEGER,
   downvotes INTEGER,
   time_created TEXT,
-  PRIMARY KEY (suggestion_id)
+  PRIMARY KEY (hotel_id)
 );
 
 DROP TABLE IF EXISTS votes;
@@ -130,13 +131,11 @@ CREATE TABLE itinerary (
     PRIMARY KEY (itinerary_id)
 )
 
-DROP TABLE IF EXISTS suggestions_in_itinerary;
+DROP TABLE IF EXISTS sii;
 
-CREATE TABLE s_and_i (
-    si_id SERIAL,
+CREATE TABLE sii (
+    sii_id SERIAL,
     itinerary_id INTEGER,
     suggestion_id TEXT,
-    PRIMARY KEY (si_id)
+    PRIMARY KEY (sii_id)
 )
-
-insert into itinerary (user_id, trip_id, time_created, suggestions) values (1, 2, 'time', '{hi, jorge}')

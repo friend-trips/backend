@@ -5,6 +5,7 @@ module.exports = {
     createHotelSuggestion: (hotelData) => {
         return new Promise((resolve, reject) => {
             hotelData.upvotes = 0;
+            hotelData.suggestion_id = hotelData.check_in_date + hotelData.check_out_date + hotelData.user_id;
             hotelData.downvotes = 0;
             hotelData.time_created = `${Date.now()}`;
             let query = inserter('hotels', hotelData);

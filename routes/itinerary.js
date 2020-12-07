@@ -18,13 +18,9 @@ router.get('/', (req, res) => {
         .catch((err) => res.status(500).send(err))
 })
 
-router.use('/suggestion', (req, res, next) => {
-    let{itinerary_id, suggestion_id} = req.body;
-    if(!itinerary_id || !suggestion_id) return res.sendStatus(400);
-    next();
-});
-
 router.post('/suggestion', (req, res) => {
+    let {itinerary_id, suggestion_id} = req.body;
+    if(!itinerary_id || !suggestion_id) return res.sendStatus(400);
     addSuggestion(req.body)
         .then((data) => res.status(201).send(data))
         .catch((err) => res.sendStatus(500))
@@ -32,7 +28,7 @@ router.post('/suggestion', (req, res) => {
 
 router.delete('/suggestion', (req, res) => {
     removeSuggestion(req.body)
-        .then((data) => res.status(200).send(data))
+        .then((data) => res.sendStatus(204))
         .catch((err) => res.sendStatus(500))
 });
 

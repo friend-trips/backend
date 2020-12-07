@@ -17,44 +17,40 @@ module.exports = {
     },
     getItinerary: (itinerary_id, trip_id) => {
         return new Promise(async (resolve, reject) => {
-            let query = selectAll('s_and_i', 'itinerary_id', itinerary_id);
-
-            let s_iData = await db.query(query);
+            let query = selectAll('sii', 'itinerary_id', itinerary_id);
+            let siiData = await db.query(query);
             let flightData = await getAllFlights(trip_id);
             let hotelData = await getAllHotels(trip_id);
-            if(!s_iData.rows.length) return reject('no saved itinerary');
-
-            let unique_sid = new Set();
-            for (let {suggestion_id} of s_iData.rows) {
-                unique_sid.add(suggestion_id);
+            if(!siiData.rows.length) return reject('no saved itinerary');
+            let unique_sii = new Set();
+            let siiCollection = {};
+            for (let {suggestion_id, sii_id} of siiData.rows) {
+                unique_sii.add(suggestion_id);
+                siiCollection[suggestion_id] = sii_id;
             }
-            // console.log(flightData, 'flightData')
-            let results = {flights: [], hotels: []};
 
-            for (let flightDataSuggestionId in flightData) {
-                console.log('flightDataSuggestionId', flightDataSuggestionId)
-                if(unique_sid.has(flightDataSuggestionId)) {
-                    results.flights.push(flightData[flightDataSuggestionId])
+            let results = {flights: [], hotels: []};
+            for (let flightSuggestedId in flightData) {
+                if(unique_sii.has(flightSuggestedId)) {
+                    flightData[flightSuggestedId].sii_id = siiCollection[flightSuggestedId]
+                    results.flights.push(flightData[flightSuggestedId])
                 }
             }
 
             results.hotels = hotelData.filter((hotel) => {
-                if(unique_sid.has(hotel.suggestion_id)) {
+                if(unique_sii.has(hotel.suggestion_id)) {
+                    hotel.sii_id = siiCollection[hotel.suggestion_id]
                     return hotel;
                 }
             })
-
-            // for (let )
-
-            console.log(results)
-            // console.log(flightData)
-            // console.log(hotelData)
+            console.log(unique_sii)
+            console.log(siiCollection)
             resolve(results);
         })
     },
     addSuggestion: (suggestionData) => {
         return new Promise((resolve, reject) => {
-            let query = inserter('s_and_i', suggestionData);
+            let query = inserter('sii', suggestionData);
             db.query(query)
                 .then((data) => resolve(data))
                 .catch((err) => {
@@ -63,9 +59,9 @@ module.exports = {
                 })
         })
     },
-    removeSuggestion: ({si_id}) => {
+    removeSuggestion: ({sii_id}) => {
         return new Promise((resolve, reject) => {
-            let query = deleter('s_and_i', 'si_id', si_id);
+            let query = deleter('sii', 'sii_id', sii_id);
             db.query(query)
                 .then(resolve)
                 .catch((err) => reject(err))
