@@ -9,10 +9,14 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    let { trip_id } = req.body;
-    getAllHotels(trip_id)
-        .then((data) => res.status(200).send(data.rows))
-        .catch((err) => res.status(500).send(err))
+    if(req.query.trip_id) {
+        let { trip_id } = req.query;
+        getAllHotels(trip_id)
+            .then((data) => res.status(200).send(data))
+            .catch((err) => res.status(500).send(err))
+    } else {
+        res.sendStatus(400);
+    }
 
 });
 

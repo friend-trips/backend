@@ -13,6 +13,7 @@ const authRoute = require('./routes/auth.js');
 const flightsRoute = require('./routes/flights.js');
 const hotelsRoute = require('./routes/hotels.js');
 const votesRoute = require('./routes/votes.js');
+const itineraryRoute = require('./routes/itinerary.js');
 
 app.use(express.json());
 app.use((req, res, next) => {
@@ -28,6 +29,7 @@ app.use('/auth', authRoute);
 app.use('/flights', flightsRoute);
 app.use('/hotels', hotelsRoute);
 app.use('/api/votes', votesRoute);
+app.use('/api/itinerary', itineraryRoute);
 
 app.get('/', (req, res) => {
     res.status(200).send('Hello friend!');

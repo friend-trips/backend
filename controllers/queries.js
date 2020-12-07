@@ -29,7 +29,13 @@ module.exports = {
     selectAllWithUsernames: function(table, column, value) {
         return {
             values: [value],
-            text:`SELECT users.username, ${table}.* FROM ${table}, users WHERE users.user_id = ${table}.user_id AND ${table}.trip_id = $1`,
+            text:`SELECT users.username, ${table}.* FROM ${table}, users WHERE users.user_id = ${table}.user_id AND ${table}.${column} = $1`,
+        }
+    },
+    deleter: (table, column, value) => {
+        return {
+            values: [value],
+            text: `DELETE FROM ${table} WHERE ${column} = $1`
         }
     },
 }

@@ -63,7 +63,6 @@ module.exports = {
             text: 'SELECT flights.*, users.username FROM flights, users WHERE trip_id = $1 AND users.user_id = flights.user_id',
             values: [trip_id]
         };
-
         getVotes(trip_id)
             .then((voteData) => {
                 voteData = voteData.rows;
@@ -142,7 +141,6 @@ module.exports = {
                             dict[suggestion_id].meta.downvote_names.push(username);
                         };
                     }
-
                     resolve(dict);
                 })
                 .catch((err) => {

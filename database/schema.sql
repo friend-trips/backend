@@ -117,3 +117,26 @@ CREATE TABLE votes (
     num_value INTEGER,
     PRIMARY KEY (vote_id)
 )
+
+DROP TABLE IF EXISTS itinerary;
+
+CREATE TABLE itinerary (
+    itinerary_id SERIAL,
+    name TEXT,
+    user_id INTEGER,
+    trip_id INTEGER,
+    time_created TEXT,
+    last_updated TEXT,
+    PRIMARY KEY (itinerary_id)
+)
+
+DROP TABLE IF EXISTS suggestions_in_itinerary;
+
+CREATE TABLE s_and_i (
+    si_id SERIAL,
+    itinerary_id INTEGER,
+    suggestion_id TEXT,
+    PRIMARY KEY (si_id)
+)
+
+insert into itinerary (user_id, trip_id, time_created, suggestions) values (1, 2, 'time', '{hi, jorge}')
