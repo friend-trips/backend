@@ -69,6 +69,7 @@ CREATE TABLE flights (
   type_of_flight TEXT,
   abbreviated_carrier_code TEXT,
   total_price TEXT,
+  num_of_seats INTEGER,
   PRIMARY KEY (id)
 );
 
