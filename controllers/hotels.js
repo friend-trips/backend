@@ -27,11 +27,11 @@ module.exports = {
             let hotelData = {};
             for (let hotel of allHotelData.rows) {
                 hotelData[hotel.suggestion_id] = hotel;
+                hotelData[hotel.suggestion_id].upvote_names = [];
+                hotelData[hotel.suggestion_id].downvote_names = [];
             }
             for (let vote of votesData.rows) {
                 if (hotelData[vote.suggestion_id]) {
-                    hotelData[vote.suggestion_id].upvote_names = hotelData[vote.suggestion_id].upvote_names || [];
-                    hotelData[vote.suggestion_id].downvote_names = hotelData[vote.suggestion_id].upvote_names || [];
                     if (vote.type === '+') {
                         hotelData[vote.suggestion_id].upvote_names.push(vote.username);
                         hotelData[vote.suggestion_id].upvotes++;
