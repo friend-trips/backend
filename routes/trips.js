@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router({ 'caseSensitive': true });
-const { createTrip, getTrip } = require('../controllers/trips.js');
+const { createTrip, getAllTrips } = require('../controllers/trips.js');
 
 router.post('/', (req, res, next) => {
     let { name } = req.body;
@@ -10,9 +10,8 @@ router.post('/', (req, res, next) => {
         .catch((err) => res.sendStatus(500))
 });
 
-router.get('/:trip_id', (req, res) => {
-    let { trip_id } = req.params;
-    getTrip(trip_id)
+router.get('/', (req, res) => {
+    getAllTrips()
         .then((data) => res.status(200).send(data.rows))
         .catch((err) => res.sendStatus(500).json('did not add'))
 });

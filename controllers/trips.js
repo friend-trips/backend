@@ -18,12 +18,9 @@ module.exports = {
                 .catch((err) => rej(err))
         })
     },
-    getTrip: (id, cb) => {
+    getAllTrips: () => {
         return new Promise((res, rej) => {
-            let query = {
-                text: 'SELECT * from trips WHERE trip_id = ($1)',
-                values: [id],
-            }
+            let query = `SELECT * FROM trips`;
             db.query(query)
                 .then((results) => res(results))
                 .catch((err) => {
