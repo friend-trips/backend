@@ -75,13 +75,13 @@ CREATE TABLE flights (
 DROP TABLE IF EXISTS hotels;
 
 CREATE TABLE hotels (
-  hotel_id SERIAL,
+  h_id SERIAL,
   suggestion_id TEXT,
   trip_id INTEGER,
   user_id INTEGER,
   check_in_date TEXT,
   check_out_date TEXT,
-  room_quanity INTEGER,
+  room_quantity INTEGER,
   adults INTEGER,
   hotel_name TEXT,
   hotel_address TEXT,
@@ -104,7 +104,12 @@ CREATE TABLE hotels (
   upvotes INTEGER,
   downvotes INTEGER,
   time_created TEXT,
-  PRIMARY KEY (hotel_id)
+  distance_from_city_center TEXT,
+  hotel_id TEXT,
+  is_suggested VARCHAR(6),
+  is_saved VARCHAR(6),
+  num_of_nights INTEGER,
+  PRIMARY KEY (h_id)
 );
 
 DROP TABLE IF EXISTS votes;
