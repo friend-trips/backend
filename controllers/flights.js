@@ -115,6 +115,8 @@ module.exports = {
                                 dict[suggestion_id].meta.downvotes = downvotes;
                                 dict[suggestion_id].meta.time_created = time_created;
                                 dict[suggestion_id].meta.num_of_seats = num_of_seats;
+                                dict[suggestion_id].meta.upvote_names = [];
+                                dict[suggestion_id].meta.downvote_names = [];
 
                                 dict[suggestion_id][type_of_flight] = dict[suggestion_id][type_of_flight] || {};
                                 dict[suggestion_id][type_of_flight].duration = duration;
@@ -128,10 +130,9 @@ module.exports = {
                                 dict[suggestion_id][type_of_flight].operating_carrier_code = operating_carrier_code;
                                 dict[suggestion_id][type_of_flight].class = flight_class;
                                 dict[suggestion_id][type_of_flight].abbreviated_carrier_code = abbreviated_carrier_code;
-                                // dict[suggestion_id][type_of_flight].abbreviated_carrier_code = abbreviated_carrier_code;
                             }
                             for (let votes of voteData) {
-                                console.log(votes.suggestion_id)
+                                console.log(dict[votes.suggestion_id])
                                 if (dict[votes.suggestion_id]) {
                                     let {
                                         suggestion_id,
@@ -142,11 +143,9 @@ module.exports = {
                                     } = votes;
                                     if (type === '+') {
                                         dict[suggestion_id].meta.upvotes += 1;
-                                        dict[suggestion_id].meta.upvote_names = dict[suggestion_id].meta.upvote_names || [];
                                         dict[suggestion_id].meta.upvote_names.push(username);
                                     } else if (type === '-') {
                                         dict[suggestion_id].meta.downvotes += 1;
-                                        dict[suggestion_id].meta.downvote_names = dict[suggestion_id].meta.downvote_names || [];
                                         dict[suggestion_id].meta.downvote_names.push(username);
                                     };
                                 }

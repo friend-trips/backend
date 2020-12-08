@@ -32,7 +32,4 @@ module.exports = {
                 })
         })
     }
-    //TODO
-    //updateTrip - update the name
-    //deleteTrip - delete a trip
 };
