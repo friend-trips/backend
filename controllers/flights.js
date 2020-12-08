@@ -41,12 +41,17 @@ module.exports = {
                 .then((outgoingData) => {
                     // console.log(outgoingData);
                     db.query(returningQuery)
-                        .then((returningData) => {
+                        .then(({ rows }) => {
                             let data = {
                                 meta: meta,
                                 outgoing: outgoing,
                                 returning: outgoing,
                             }
+                            data.meta.upvotes = 0;
+                            data.meta.downvotes = 0;
+                            data.meta.time_created = rows[0].time_created;
+                            data.meta.num_of_seats = rows[0].num_of_seats;
+                            data.meta.suggestion_id = rows[0].suggestion_id;
                             resolve(data);
                         })
                         .catch((err) => reject(err))
@@ -135,7 +140,6 @@ module.exports = {
                                         num_value,
                                         type,
                                     } = votes;
-                                    console.log('hello')
                                     if (type === '+') {
                                         dict[suggestion_id].meta.upvotes += 1;
                                         dict[suggestion_id].meta.upvote_names = dict[suggestion_id].meta.upvote_names || [];
