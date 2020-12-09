@@ -17,36 +17,39 @@ module.exports = {
     },
     getItinerary: (itinerary_id, trip_id) => {
         return new Promise(async (resolve, reject) => {
-            let query = selectAll('sii', 'itinerary_id', itinerary_id);
-            let siiData = await db.query(query);
-            let flightData = await getAllFlights(trip_id);
-            let hotelData = await getAllHotels(trip_id);
-            if (!siiData.rows.length) return reject('no saved itinerary');
-            let unique_sii = new Set();
-            let siiCollection = {};
-            for (let { suggestion_id, sii_id } of siiData.rows) {
-                unique_sii.add(suggestion_id);
-                siiCollection[suggestion_id] = sii_id;
-            }
 
-            let results = { flights: [], hotels: [] };
-            for (let flight_sid in flightData) {
-                console.log(flight_sid, 'flight id')
-                if (unique_sii.has(flight_sid)) {
-                    flightData[flight_sid].sii_id = siiCollection[flight_sid]
-                    results.flights.push(flightData[flight_sid])
+            try {
+                let query = selectAll('sii', 'itinerary_id', itinerary_id);
+                let siiData = await db.query(query);
+                let flightData = await getAllFlights(trip_id);
+                let hotelData = await getAllHotels(trip_id);
+                if (!siiData.rows.length) return reject('no saved itinerary');
+                let unique_sii = new Set();
+                let siiCollection = {};
+                for (let { suggestion_id, sii_id } of siiData.rows) {
+                    unique_sii.add(suggestion_id);
+                    siiCollection[suggestion_id] = sii_id;
                 }
-            }
 
-            for (let keys in hotelData) {
-                console.log(keys, 'keys')
-                if (unique_sii.has(keys)) {
-                    results.hotels.push(hotelData[keys])
+                let results = { flights: [], hotels: [] };
+                for (let flight_sid in flightData) {
+                    if (unique_sii.has(flight_sid)) {
+                        flightData[flight_sid].sii_id = siiCollection[flight_sid]
+                        results.flights.push(flightData[flight_sid])
+                    }
                 }
+
+                for (let keys in hotelData) {
+                    if (unique_sii.has(keys)) {
+                        results.hotels.push(hotelData[keys])
+                    }
+                }
+                resolve(results);
+            } catch (error) {
+                console.log(error);
+                reject(error);
             }
 
-            console.log(siiCollection, 'all the ids')
-            resolve(results);
         })
     },
     addSuggestion: (suggestionData) => {
