@@ -22,8 +22,8 @@ module.exports = {
                 let siiData = await db.query(query);
                 let flightData = await getAllFlights(trip_id);
                 let hotelData = await getAllHotels(trip_id);
-                console.log('flightdata', flightData, 'flightdata')
-                console.log('hotelData', hotelData, 'hotelData')
+                console.log('flightdata', flightData, 'flightdata');
+                console.log('hotelData', hotelData, 'hotelData');
                 if (!siiData.rows.length) return reject('no saved itinerary');
                 let unique_sii = new Set();
                 let siiCollection = {};
@@ -50,7 +50,6 @@ module.exports = {
                 console.log(error);
                 reject(error);
             }
-
         })
     },
     addSuggestion: (suggestionData) => {

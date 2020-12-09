@@ -1,5 +1,5 @@
 const db = require('../database/index.js');
-const { inserter, selectAll } = require('./queries.js');
+const { inserter, selectAll, selectAllWithUsernames } = require('./queries.js');
 const { getVotes } = require('./votes.js');
 
 module.exports = {
@@ -20,9 +20,11 @@ module.exports = {
     },
     getAllHotels: (trip_id) => {
         return new Promise(async (resolve, reject) => {
-            let query = selectAll('hotels', 'trip_id', trip_id)
+            let query = selectAllWithUsernames('hotels', 'trip_id', trip_id)
             let allHotelData = await db.query(query);
             let votesData = await getVotes(trip_id);
+
+            console.log(allHotelData)
 
             let hotelData = {};
             for (let hotel of allHotelData.rows) {
