@@ -1,8 +1,8 @@
 const db = require('../database/index.js');
 const moment = require('moment');
-const {inserter, deleter, selectAll} = require('./queries.js');
-const {getAllFlights} = require('./flights.js');
-const {getAllHotels} = require('./hotels.js');
+const { inserter, deleter, selectAll } = require('./queries.js');
+const { getAllFlights } = require('./flights.js');
+const { getAllHotels } = require('./hotels.js');
 
 module.exports = {
     createItinerary: (itineraryData) => {
@@ -21,30 +21,31 @@ module.exports = {
             let siiData = await db.query(query);
             let flightData = await getAllFlights(trip_id);
             let hotelData = await getAllHotels(trip_id);
-            if(!siiData.rows.length) return reject('no saved itinerary');
+            if (!siiData.rows.length) return reject('no saved itinerary');
             let unique_sii = new Set();
             let siiCollection = {};
-            for (let {suggestion_id, sii_id} of siiData.rows) {
+            for (let { suggestion_id, sii_id } of siiData.rows) {
                 unique_sii.add(suggestion_id);
                 siiCollection[suggestion_id] = sii_id;
             }
 
-            let results = {flights: [], hotels: []};
-            for (let flightSuggestedId in flightData) {
-                if(unique_sii.has(flightSuggestedId)) {
-                    flightData[flightSuggestedId].sii_id = siiCollection[flightSuggestedId]
-                    results.flights.push(flightData[flightSuggestedId])
+            let results = { flights: [], hotels: [] };
+            for (let flight_sid in flightData) {
+                console.log(flight_sid, 'flight id')
+                if (unique_sii.has(flight_sid)) {
+                    flightData[flight_sid].sii_id = siiCollection[flight_sid]
+                    results.flights.push(flightData[flight_sid])
                 }
             }
 
-            results.hotels = hotelData.filter((hotel) => {
-                if(unique_sii.has(hotel.suggestion_id)) {
-                    hotel.sii_id = siiCollection[hotel.suggestion_id]
-                    return hotel;
+            for (let keys in hotelData) {
+                console.log(keys, 'keys')
+                if (unique_sii.has(keys)) {
+                    results.hotels.push(hotelData[keys])
                 }
-            })
-            console.log(unique_sii)
-            console.log(siiCollection)
+            }
+
+            console.log(siiCollection, 'all the ids')
             resolve(results);
         })
     },
@@ -59,7 +60,7 @@ module.exports = {
                 })
         })
     },
-    removeSuggestion: ({sii_id}) => {
+    removeSuggestion: ({ sii_id }) => {
         return new Promise((resolve, reject) => {
             let query = deleter('sii', 'sii_id', sii_id);
             db.query(query)
