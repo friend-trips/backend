@@ -24,8 +24,6 @@ module.exports = {
             let allHotelData = await db.query(query);
             let votesData = await getVotes(trip_id);
 
-            console.log(allHotelData)
-
             let hotelData = {};
             for (let hotel of allHotelData.rows) {
                 hotelData[hotel.suggestion_id] = hotel;
