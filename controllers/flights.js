@@ -132,7 +132,6 @@ module.exports = {
                                 dict[suggestion_id][type_of_flight].abbreviated_carrier_code = abbreviated_carrier_code;
                             }
                             for (let votes of voteData) {
-                                console.log(dict[votes.suggestion_id])
                                 if (dict[votes.suggestion_id]) {
                                     let {
                                         suggestion_id,
