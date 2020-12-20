@@ -13,7 +13,6 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
     let { itinerary_id, trip_id } = req.query;
     if (!itinerary_id || !trip_id) return res.sendStatus(400);
-    console.log('is it coming in here?')
     getItinerary(itinerary_id, trip_id)
         .then((data) => res.status(200).send(data))
         .catch((err) => res.status(500).send(err))

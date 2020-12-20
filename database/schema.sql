@@ -12,7 +12,7 @@ CREATE TABLE users (
   user_id SERIAL,
   email VARCHAR(20),
   username VARCHAR(20),
-  password VARCHAR(20),
+  password TEXT,
   PRIMARY KEY (user_id)
 );
 
@@ -122,7 +122,7 @@ CREATE TABLE votes (
     type TEXT,
     num_value INTEGER,
     PRIMARY KEY (vote_id)
-)
+);
 
 DROP TABLE IF EXISTS itinerary;
 
@@ -134,7 +134,7 @@ CREATE TABLE itinerary (
     time_created TEXT,
     last_updated TEXT,
     PRIMARY KEY (itinerary_id)
-)
+);
 
 DROP TABLE IF EXISTS sii;
 
@@ -143,4 +143,4 @@ CREATE TABLE sii (
     itinerary_id INTEGER,
     suggestion_id TEXT,
     PRIMARY KEY (sii_id)
-)
+);
