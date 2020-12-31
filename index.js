@@ -4,7 +4,7 @@ const db = require('./database/index.js');
 const PORT = process.env.PORT || 4001;
 const cors = require('cors');
 app.use(cors());
-
+//hello
 const tripsRoute = require('./routes/trips.js');
 const usersRoute = require('./routes/users.js');
 const messagesRoute = require('./routes/messages.js');
@@ -17,8 +17,8 @@ const itineraryRoute = require('./routes/itinerary.js');
 
 app.use(express.json());
 app.use((req, res, next) => {
-    console.log(`A ${req.method} for ${req.originalUrl}`);
-    next();
+  console.log(`A ${req.method} for ${req.originalUrl}`);
+  next();
 });
 
 app.use('/trips', tripsRoute);
@@ -32,9 +32,9 @@ app.use('/api/votes', votesRoute);
 app.use('/api/itinerary', itineraryRoute);
 
 app.get('/', (req, res) => {
-    res.status(200).send('Hello friend!');
+  res.status(200).send('Hello friend!');
 });
 
 app.listen(PORT, () => {
-    console.log(`Listening at http://localhost:${PORT}`);
+  console.log(`Listening at http://localhost:${PORT}`);
 });
