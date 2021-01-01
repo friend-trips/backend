@@ -10,7 +10,6 @@ module.exports = {
             hotelData.downvotes = 0;
             hotelData.time_created = `${Date.now()}`;
             let query = inserter('hotels', hotelData);
-            console.log('hello')
             db.query(query)
                 .then((result) => resolve(result))
                 .catch((err) => {

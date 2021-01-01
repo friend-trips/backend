@@ -1,5 +1,5 @@
+USE friendtrips;
 DROP TABLE IF EXISTS trips;
-
 CREATE TABLE trips (
   trip_id SERIAL,
   name VARCHAR(20),
@@ -88,7 +88,12 @@ CREATE TABLE hotels (
   city_code TEXT,
   rating INTEGER,
   amenities TEXT,
-  price INTEGER,
+  offer_id TEXT,
+  price DECIMAL,
+  currency TEXT,
+  room_type TEXT,
+  bed_type TEXT,
+  number_of_beds INTEGER,
   number_of_reviews INTEGER,
   number_of_ratings INTEGER,
   overall_ratings INTEGER,
