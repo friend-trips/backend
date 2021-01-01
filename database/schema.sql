@@ -1,4 +1,4 @@
-USE friendtrips;
+
 DROP TABLE IF EXISTS trips;
 CREATE TABLE trips (
   trip_id SERIAL,
