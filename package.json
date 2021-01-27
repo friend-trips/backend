@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "nodemon index.js"
     },
     "dependencies": {
         "axios": "^0.21.0",
@@ -23,5 +23,8 @@
     "bugs": {
         "url": "https://github.com/friend-trips/backend/issues"
     },
-    "homepage": "https://github.com/friend-trips/backend#readme"
+    "homepage": "https://github.com/friend-trips/backend#readme",
+    "devDependencies": {
+        "nodemon": "^2.0.6"
+    }
 }

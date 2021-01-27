@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS trips;
 
+DROP TABLE IF EXISTS trips;
 CREATE TABLE trips (
   trip_id SERIAL,
   name VARCHAR(20),
@@ -85,10 +85,17 @@ CREATE TABLE hotels (
   adults INTEGER,
   hotel_name TEXT,
   hotel_address TEXT,
+  latitude Decimal(8,6),
+  longitude Decimal(9,6),
   city_code TEXT,
   rating INTEGER,
   amenities TEXT,
-  price INTEGER,
+  offer_id TEXT,
+  price DECIMAL,
+  currency TEXT,
+  room_type TEXT,
+  bed_type TEXT,
+  number_of_beds INTEGER,
   number_of_reviews INTEGER,
   number_of_ratings INTEGER,
   overall_ratings INTEGER,
@@ -109,7 +116,24 @@ CREATE TABLE hotels (
   is_suggested VARCHAR(6),
   is_saved VARCHAR(6),
   num_of_nights INTEGER,
+  latitude DECIMAL(8,6),
+  longitude DECIMAL(9,6),
   PRIMARY KEY (h_id)
+);
+
+DROP TABLE IF EXISTS pois;
+
+CREATE TABLE pois (
+  p_id SERIAL,
+  trip_id INTEGER,
+  user_id INTEGER,
+  poi_id TEXT,
+  name TEXT,
+  category TEXT,
+  tags TEXT[],
+  latitude DECIMAL(8,6),
+  longitude DECIMAL(9,6),
+  created TIMESTAMP WITH TIME ZONE
 );
 
 DROP TABLE IF EXISTS votes;
@@ -136,11 +160,30 @@ CREATE TABLE itinerary (
     PRIMARY KEY (itinerary_id)
 );
 
-DROP TABLE IF EXISTS sii;
 
-CREATE TABLE sii (
-    sii_id SERIAL,
-    itinerary_id INTEGER,
-    suggestion_id TEXT,
-    PRIMARY KEY (sii_id)
+DROP TABLE IF EXISTS saved_itinerary_events;
+
+CREATE TABLE saved_itinerary_events (
+    sie_id SERIAL,
+    name TEXT,
+    type TEXT,
+    description TEXT,
+    date TEXT,
+    PRIMARY KEY (sie_id)
+);
+
+DROP TABLE IF EXISTS pois;
+
+CREATE TABLE pois (
+    p_id SERIAL,
+    trip_id INTEGER,
+    user_id INTEGER,
+    poi_id TEXT,
+    name TEXT,
+    category TEXT,
+    tags TEXT[],
+    latitude DECIMAL(8,6),
+    longitude DECIMAL(9,6),
+    created TIMESTAMP WITH TIME ZONE
+    PRIMARY KEY (p_id)
 );
