@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router({ 'caseSensitive': true });
-const { createFlightSuggestion, getAllFlights , generateFakeData} = require('../controllers/flights.js');
+const { createFlightSuggestion, getAllFlights , generateFakeData, deleteFlight} = require('../controllers/flights.js');
 
 router.post('/', (req, res, next) => {
     createFlightSuggestion(req.body)
@@ -23,6 +23,12 @@ router.get('/data', (req, res, next) => {
     generateFakeData()
         .then((data) => res.status(201).send(data))
         .catch((err) => res.status(500).send(err))
+});
+
+router.delete('/flights/:suggestion_id', (req, res) => {
+    deleteFlight(req.params.suggestion_id)
+        .then((data) => res.sendStatus(204))
+        .catch((err) => res.sendStatus(500))
 });
 
 module.exports = router;

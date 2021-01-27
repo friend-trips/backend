@@ -1,5 +1,5 @@
 const db = require('../database/index.js');
-const { inserter, selectAll } = require('./queries.js');
+const { inserter, selectAll, deleter } = require('./queries.js');
 const { getVotes } = require('./votes.js');
 
 
@@ -206,6 +206,14 @@ module.exports = {
         }
         return new Promise((res, rej) => {
             res(obj);
+        })
+    },
+    deleteFlight: (suggestion_id) => {
+        return new Promise((resolve, reject) => {
+            let query = deleter('flights', 'suggestion_id', suggestion_id);
+            db.query(query)
+                .then(resolve)
+                .catch((err) => reject(err))
         })
     },
 }
