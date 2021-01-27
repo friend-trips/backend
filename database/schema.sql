@@ -85,6 +85,8 @@ CREATE TABLE hotels (
   adults INTEGER,
   hotel_name TEXT,
   hotel_address TEXT,
+  latitude Decimal(8,6),
+  longitude Decimal(9,6),
   city_code TEXT,
   rating INTEGER,
   amenities TEXT,
@@ -117,6 +119,21 @@ CREATE TABLE hotels (
   latitude DECIMAL(8,6),
   longitude DECIMAL(9,6),
   PRIMARY KEY (h_id)
+);
+
+DROP TABLE IF EXISTS pois;
+
+CREATE TABLE pois (
+  p_id SERIAL,
+  trip_id INTEGER,
+  user_id INTEGER,
+  poi_id TEXT,
+  name TEXT,
+  category TEXT,
+  tags TEXT[],
+  latitude DECIMAL(8,6),
+  longitude DECIMAL(9,6),
+  created TIMESTAMP WITH TIME ZONE
 );
 
 DROP TABLE IF EXISTS votes;

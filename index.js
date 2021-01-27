@@ -12,6 +12,7 @@ const commentsRoute = require('./routes/comments.js');
 const authRoute = require('./routes/auth.js');
 const flightsRoute = require('./routes/flights.js');
 const hotelsRoute = require('./routes/hotels.js');
+const poisRoute = require('./routes/pois.js');
 const votesRoute = require('./routes/votes.js');
 const itineraryRoute = require('./routes/itinerary.js');
 
@@ -28,6 +29,7 @@ app.use('/comments', commentsRoute);
 app.use('/auth', authRoute);
 app.use('/flights', flightsRoute);
 app.use('/hotels', hotelsRoute);
+app.use('/pois', poisRoute);
 app.use('/api/votes', votesRoute);
 app.use('/api/itinerary', itineraryRoute);
 
