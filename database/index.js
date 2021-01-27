@@ -12,7 +12,7 @@ if (!database) {
         connectionString: database,
         ssl: {
             rejectUnauthorized: false
-        }
+        },
         host: 'localhost',
         user: 'student',
         database: 'friendtrips',
