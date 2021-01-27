@@ -10,9 +10,8 @@ module.exports = {
             };
             db.query(query)
                 .then((results) => {
-                  console.log('insert POI', results)
+                  // console.log('insert POI', results)
                   res(results.rows[0]);
-                    // res(data);
                 })
                 .catch((err) => {
                     console.log('insertPOI err', err)

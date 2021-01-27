@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
   getAllPOIs()
     .then((data) => {
-      console.log('success getting data', data)
+      // console.log('success getting data', data)
       res.status(200).json(data.rows)
     })
     .catch((err) => {
