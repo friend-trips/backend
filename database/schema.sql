@@ -114,6 +114,8 @@ CREATE TABLE hotels (
   is_suggested VARCHAR(6),
   is_saved VARCHAR(6),
   num_of_nights INTEGER,
+  latitude DECIMAL(8,6),
+  longitude DECIMAL(9,6),
   PRIMARY KEY (h_id)
 );
 
@@ -141,11 +143,30 @@ CREATE TABLE itinerary (
     PRIMARY KEY (itinerary_id)
 );
 
-DROP TABLE IF EXISTS sii;
 
-CREATE TABLE sii (
-    sii_id SERIAL,
-    itinerary_id INTEGER,
-    suggestion_id TEXT,
-    PRIMARY KEY (sii_id)
+DROP TABLE IF EXISTS saved_itinerary_events;
+
+CREATE TABLE saved_itinerary_events (
+    sie_id SERIAL,
+    name TEXT,
+    type TEXT,
+    description TEXT,
+    date TEXT,
+    PRIMARY KEY (sie_id)
+);
+
+DROP TABLE IF EXISTS pois;
+
+CREATE TABLE pois (
+    p_id SERIAL,
+    trip_id INTEGER,
+    user_id INTEGER,
+    poi_id TEXT,
+    name TEXT,
+    category TEXT,
+    tags TEXT[],
+    latitude DECIMAL(8,6),
+    longitude DECIMAL(9,6),
+    created TIMESTAMP WITH TIME ZONE
+    PRIMARY KEY (p_id)
 );
