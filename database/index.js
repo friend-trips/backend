@@ -3,17 +3,20 @@ const database = process.env.DATABASE_URL;
 
 let pool;
 if (!database) {
-    const { username, local_db_name } = require('./config.js');
     pool = new Pool({
-        user: username,
-        database: local_db_name,
+        user: 'root',
+        database: 'friendtrips',
     })
 } else {
     pool = new Pool({
         connectionString: database,
         ssl: {
             rejectUnauthorized: false
-        }
+        },
+        host: 'localhost',
+        user: 'student',
+        database: 'friendtrips',
+        port: 5432
     });
 }
 
