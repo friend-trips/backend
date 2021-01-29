@@ -12,16 +12,15 @@ router.post('/', (req, res) => {
     date:`${Date.now()}`
   }
   createEvent(event)
-    .then((data) => {
-      res.status(201).send(data.rows[0])
-    })
+    .then((data) => res.status(201).send(data.rows[0]))
     .catch(() => res.send('did not work'))
 })
 //would never get one individually
 router.get('/:itinerary_id', (req, res) => {
+  console.log('hello', req.params)
   getEvents(req.params.itinerary_id)
-    .then((data) => res.status(200).send(data))
-    .catch(() => res.send('did not work'))
+    .then((data) => res.status(200).send(data.rows))
+    .catch(() => res.status(500).send('did not work'))
 })
 
 router.patch('/:event_id', (req, res) => {

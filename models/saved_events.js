@@ -10,9 +10,13 @@ module.exports = {
         .catch(reject)
     })
   },
-  getEvents: (data) => {
+  getEvents: (itinerary_id) => {
     return new Promise((resolve, reject) => {
-      resolve('the data came through')
+      let query = selectAll('saved_itinerary_events', 'itinerary_id', itinerary_id);
+      console.log(query)
+      db.query(query)
+        .then(resolve)
+        .catch(reject)
     })
   },
   updateEvent: () => {
