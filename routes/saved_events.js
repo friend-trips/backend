@@ -4,7 +4,7 @@ const createEventController = require('../controllers/saved_events');
 
 router.get('/:itinerary_id', createEventController);
 router.post('/', createEventController);
-router.patch('/', createEventController);
-router.delete('/', createEventController);
+router.patch('/:event_id', createEventController);
+router.delete('/:event_id', createEventController);
 
 module.exports = router;

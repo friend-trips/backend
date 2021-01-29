@@ -22,20 +22,14 @@ router.get('/:itinerary_id', (req, res) => {
     .then((data) => res.status(200).send(data.rows))
     .catch(() => res.status(500).send('did not work'))
 })
-
+//create middleware in order to check if the key is title, type description or date
 router.patch('/:event_id', (req, res) => {
-  let {title, type, description} = req.body;
-
-  let event = {
-    title: title || 'no name',
-    type: type || 'no type',
-    description: description || 'no description',
-    date:`${Date.now()}`
-  }
-
-  updateEvent(event)
+  let {event_id} = req.params;
+  for (let key in req.body) {
+    updateEvent(key, req.body[key], event_id)
     .then((data) => res.send(data))
     .catch(() => res.send('did not work'))
+  }
 })
 
 router.delete('/:event_id', (req, res) => {

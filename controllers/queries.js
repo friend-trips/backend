@@ -38,4 +38,12 @@ module.exports = {
             text: `DELETE FROM ${table} WHERE ${column} = $1`
         }
     },
+    updater: (table, setColumnName, setValue, conditionColumn, conditionValue) => {
+      return `UPDATE ${table} SET ${setColumnName} = '${setValue}' WHERE ${conditionColumn} = ${conditionValue}`
+    }
 }
+
+
+// UPDATE courses
+// SET published_date = '2020-08-01'
+// WHERE course_id = 3;

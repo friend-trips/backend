@@ -1,5 +1,5 @@
 const db = require('../database/index.js');
-const {inserter, selectAll, selectAllWithUsernames} = require('../controllers/queries.js');
+const {inserter, selectAll, selectAllWithUsernames, updater} = require('../controllers/queries.js');
 
 module.exports = {
   createEvent: (event) => {
@@ -19,9 +19,12 @@ module.exports = {
         .catch(reject)
     })
   },
-  updateEvent: () => {
+  updateEvent: (columnName, value, event_id) => {
     return new Promise((resolve, reject) => {
-      resolve('the data came through')
+      let query = updater('saved_itinerary_events', columnName, value, 'event_id', event_id);
+      db.query(query)
+        .then(resolve)
+        .catch((err) => reject())
     })
   },
   deleteEvent: () => {
