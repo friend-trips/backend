@@ -13,29 +13,29 @@ router.post('/', (req, res) => {
   }
   createEvent(event)
     .then((data) => res.status(201).send(data.rows[0]))
-    .catch(() => res.send('did not work'))
+    .catch((err) => res.status(500).send(err))
 })
 //would never get one individually
 router.get('/:itinerary_id', (req, res) => {
-  console.log('hello', req.params)
   getEvents(req.params.itinerary_id)
     .then((data) => res.status(200).send(data.rows))
-    .catch(() => res.status(500).send('did not work'))
+    .catch((err) => res.status(500).send(err))
 })
 //create middleware in order to check if the key is title, type description or date
 router.patch('/:event_id', (req, res) => {
   let {event_id} = req.params;
   for (let key in req.body) {
     updateEvent(key, req.body[key], event_id)
-    .then((data) => res.send(data))
-    .catch(() => res.send('did not work'))
+    .then((data) => res.status(200).send(data))
+    .catch((err) => res.status(500).send(err))
   }
 })
 
+//even if the event id doesnt exist, it will send a 204
 router.delete('/:event_id', (req, res) => {
   deleteEvent(req.params.event_id)
     .then((data) => res.sendStatus(204))
-    .catch(() => res.send('did not work'))
+    .catch((err) => res.status(500).send(err))
 })
 
 module.exports = router;
