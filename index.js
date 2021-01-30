@@ -33,7 +33,6 @@ app.use('/hotels', hotelsRoute);
 app.use('/pois', poisRoute);
 app.use('/api/votes', votesRoute);
 app.use('/api/itinerary', itineraryRoute);
-app.use('/api/saved_events', savedEventsRoute);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello friend!');
