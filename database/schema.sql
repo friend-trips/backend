@@ -166,10 +166,12 @@ DROP TABLE IF EXISTS saved_itinerary_events;
 CREATE TABLE saved_itinerary_events (
     event_id SERIAL,
     itinerary_id INTEGER,
-    title TEXT,
+    suggestion_id INTEGER,
     type TEXT,
+    title TEXT,
     description TEXT,
-    date TEXT,
+    start_date TEXT,
+    end_date TEXT,
     PRIMARY KEY (event_id)
 );
 
