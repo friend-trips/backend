@@ -3,13 +3,15 @@ const express = require('express');
 const router = express.Router({ 'caseSensitive': true });
 
 router.post('/', (req, res) => {
-  let {title, type, description, itinerary_id} = req.body;
+  let {itinerary_id, suggestion_id, title, type, description, start_date, end_date} = req.body;
   let event = {
     itinerary_id,
+    suggestion_id,
     title: title || 'no name',
-    type: type || 'no type',
+    type,
     description: description || 'no description',
-    date:`${Date.now()}`
+    start_date,
+    end_date,
   }
   createEvent(event)
     .then((data) => res.status(201).send(data.rows[0]))
