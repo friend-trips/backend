@@ -1,6 +1,19 @@
 const express = require('express')
 const router = express.Router({ 'caseSensitive': true });
 const { createItinerary, getItinerary, addSuggestion, removeSuggestion } = require('../controllers/itinerary.js');
+const eventController = require('../controllers/saved_events');
+
+//itinerary create this at some point for itinerary
+// router.get('/itinerary/:itinerary_id', createEventController);
+// router.post('/', createEventController);
+// router.patch('/:event_id', createEventController);
+// router.delete('/:event_id', createEventController);
+
+//saved_events
+router.get('/:itinerary_id/saved_events', eventController);
+router.post('/saved_events', eventController);
+router.patch('/saved_events/:event_id', eventController);
+router.delete('/saved_events/:event_id', eventController);
 
 router.post('/', (req, res) => {
     let { user_id, trip_id } = req.body;
