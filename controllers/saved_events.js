@@ -2,7 +2,7 @@ const {getEvents, createEvent, updateEvent, deleteEvent} = require('../models/sa
 const express = require('express');
 const router = express.Router({ 'caseSensitive': true });
 
-router.post('/saved_events', (req, res) => {
+router.post('/:itinerary_id/saved_events', (req, res) => {
   let {itinerary_id, suggestion_id, title, type, description, start_date, end_date} = req.body;
   let event = {
     itinerary_id,
@@ -25,7 +25,7 @@ router.get('/:itinerary_id/saved_events', (req, res) => {
 })
 
 //create middleware in order to check if the key is title, type description or date
-router.patch('/saved_events/:event_id', (req, res) => {
+router.patch('/:itinerary_id/saved_events/:event_id', (req, res) => {
   let {event_id} = req.params;
   for (let key in req.body) {
     updateEvent(key, req.body[key], event_id)
@@ -35,7 +35,7 @@ router.patch('/saved_events/:event_id', (req, res) => {
 })
 
 //even if the event id doesnt exist, it will send a 204
-router.delete('/saved_events/:event_id', (req, res) => {
+router.delete('/:itinerary_id/saved_events/:event_id', (req, res) => {
   deleteEvent(req.params.event_id)
     .then((data) => res.sendStatus(204))
     .catch((err) => res.status(500).send(err))

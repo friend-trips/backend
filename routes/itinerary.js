@@ -11,9 +11,9 @@ const eventController = require('../controllers/saved_events');
 
 //saved_events
 router.get('/:itinerary_id/saved_events', eventController);
-router.post('/saved_events', eventController);
-router.patch('/saved_events/:event_id', eventController);
-router.delete('/saved_events/:event_id', eventController);
+router.post('/:itinerary_id/saved_events', eventController);
+router.patch('/:itinerary_id/saved_events/:event_id', eventController);
+router.delete('/:itinerary_id/saved_events/:event_id', eventController);
 
 router.post('/', (req, res) => {
     let { user_id, trip_id } = req.body;
