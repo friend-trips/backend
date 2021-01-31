@@ -15,7 +15,7 @@ const hotelsRoute = require('./routes/hotels.js');
 const poisRoute = require('./routes/pois.js');
 const votesRoute = require('./routes/votes.js');
 const itineraryRoute = require('./routes/itinerary.js');
-const savedEventsRoute = require('./routes/saved_events.js');
+// const savedEventsRoute = require('./routes/saved_events.js');
 
 app.use(express.json());
 app.use((req, res, next) => {
