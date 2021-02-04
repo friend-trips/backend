@@ -71,4 +71,16 @@ module.exports = {
                 .catch((err) => reject(err))
         })
     },
+    getAllItineraries:(trip_id) => {
+      return new Promise((resolve, reject) => {
+        // let query = `SELECT * from itinerary WHERE trip_id = ${Number(trip_id)}`;
+        // console.log(query)
+        db.query({
+          values: [trip_id],
+          text: `SELECT * from itinerary WHERE trip_id = $1`
+      })
+          .then((data) => resolve(data))
+          .catch((err) => reject(err))
+      })
+    }
 }

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router({ 'caseSensitive': true });
-const { createItinerary, getItinerary, addSuggestion, removeSuggestion } = require('../controllers/itinerary.js');
+const { createItinerary, getItinerary, addSuggestion, removeSuggestion , getAllItineraries} = require('../controllers/itinerary.js');
 const eventController = require('../controllers/saved_events');
 
 //itinerary create this at some point for itinerary
@@ -29,6 +29,13 @@ router.get('/', (req, res) => {
     getItinerary(itinerary_id, trip_id)
         .then((data) => res.status(200).send(data))
         .catch((err) => res.status(500).send(err))
+})
+
+router.get('/getAll/:trip_id', (req, res) => {
+  console.log(req.params)
+  getAllItineraries(Number(req.params.trip_id))
+    .then((data) => res.status(200).send(data))
+    .catch((err) => res.status(500).send(err))
 })
 
 router.post('/suggestion', (req, res) => {
