@@ -51,9 +51,9 @@ router.post('/hotels', (req, res) => {
     .catch((err) => res.status(500).send(err))
 })
 
-router.get('/hotel_offers', (req, res) => {
-  Amadeus.getHotelOffers()
-    .then((results) => res.status(200).send(results))
+router.post('/hotel_offers', (req, res) => {
+  Amadeus.getHotelOffers(req.body)
+    .then((result) => res.status(200).send(result.data.offers))
     .catch((err) => res.status(500).send(err))
 })
 

@@ -48,7 +48,13 @@ module.exports = {
         })
     })
   },
-  getHotelOffers: () => {
+  getHotelOffers: (offerQuery) => {
+    return new Promise((resolve, reject) => {
+      amadeus.shopping.hotelOffersByHotel
+        .get(offerQuery)
+        .then(resolve)
+        .catch(reject)
+    })
 
   },
   getPOIS: (data) => {

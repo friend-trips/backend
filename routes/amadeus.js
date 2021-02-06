@@ -5,7 +5,7 @@ const amadeusController = require('../controllers/amadeus');
 router.get('/city_code', amadeusController);
 router.post('/flights', amadeusController);
 router.post('/hotels', amadeusController);
-router.get('/hotel_offers', amadeusController);
+router.post('/hotel_offers', amadeusController);
 router.get('/POI', amadeusController);
 
 module.exports = router;
