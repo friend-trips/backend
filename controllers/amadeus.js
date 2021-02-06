@@ -4,6 +4,7 @@ const Amadeus = require('../models/amadeus');
 
 router.get('/city_code', (req, res) => {
   let {keyword, subType} = req.query;
+  console.log(keyword, subType, 'city code')
   Amadeus.getCityCode(keyword, subType)
     .then((results) => res.status(200).send(results))
     .catch((err) => res.status(500).send(err))
@@ -15,7 +16,7 @@ router.get('/flights', (req, res) => {
     .catch((err) => res.status(500).send(err))
 })
 
-router.get('/hotels', (req, res) => {
+router.post('/hotels', (req, res) => {
   let {data} = req.body;
   console.log(data, 'hotels data');
   console.log(req.body, 'req.body');
