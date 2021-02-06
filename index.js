@@ -1,20 +1,24 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const db = require('./database/index.js');
 const PORT = process.env.PORT || 4001;
 const cors = require('cors');
 app.use(cors());
-//hello
+
 const tripsRoute = require('./routes/trips.js');
 const usersRoute = require('./routes/users.js');
 const messagesRoute = require('./routes/messages.js');
 const commentsRoute = require('./routes/comments.js');
 const authRoute = require('./routes/auth.js');
+
 const flightsRoute = require('./routes/flights.js');
 const hotelsRoute = require('./routes/hotels.js');
 const poisRoute = require('./routes/pois.js');
 const votesRoute = require('./routes/votes.js');
 const itineraryRoute = require('./routes/itinerary.js');
+const amadeusRoute = require('./routes/amadeus.js');
+
 // const savedEventsRoute = require('./routes/saved_events.js');
 
 app.use(express.json());
@@ -33,6 +37,7 @@ app.use('/hotels', hotelsRoute);
 app.use('/pois', poisRoute);
 app.use('/api/votes', votesRoute);
 app.use('/api/itinerary', itineraryRoute);
+app.use('/api/amadeus', amadeusRoute);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello friend!');
