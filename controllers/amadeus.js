@@ -17,11 +17,11 @@ router.get('/flights', (req, res) => {
 })
 
 router.post('/hotels', (req, res) => {
-  let {data} = req.body;
-  console.log(data, 'hotels data');
+  // let {data} = req.body;
+  // console.log(data, 'hotels data');
   console.log(req.body, 'req.body');
 
-  Amadeus.getHotels(data)
+  Amadeus.getHotels(req.body)
     .then((arr) => {
       const newArr = arr.map((result) => {
         const filteredResult = {};
