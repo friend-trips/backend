@@ -10,12 +10,6 @@ router.get('/city_code', (req, res) => {
     .catch((err) => res.status(500).send(err))
 })
 
-router.get('/flights', (req, res) => {
-  Amadeus.getFlights()
-    .then((results) => res.status(200).send(results))
-    .catch((err) => res.status(500).send(err))
-})
-
 router.post('/hotels', (req, res) => {
   // let {data} = req.body;
   // console.log(data, 'hotels data');
@@ -64,14 +58,19 @@ router.get('/hotel_offers', (req, res) => {
 })
 
 router.get('/POI', (req, res) => {
-  Amadeus.getPOIS()
-    .then((results) => res.status(200).send(results))
-    .catch((err) => res.status(500).send(err))
+  let {latitude, longitude} = req.query;
+  console.log({latitude: Number(latitude), longitude: Number(longitude)}, 'query')
+  Amadeus.getPOIS({latitude: Number(latitude), longitude: Number(longitude)})
+    .then(({data}) => res.status(200).send(data))
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err)
+    })
 })
 
-router.get('/flights', (req, res) => {
-  Amadeus.getFlights()
-    .then((results) => {
+router.post('/flights', (req, res) => {
+  Amadeus.getFlights(req.body)
+    .then(({data}) => {
       const filterData = (array) => {
         function changeTime(timeString) {
           if (timeString.slice(0, 2) > 12) {
@@ -171,63 +170,12 @@ router.get('/flights', (req, res) => {
           return filteredResult;
         });
       };
-      res.status(200).send(filterData(results))
+      res.status(200).send(filterData(data))
     })
-    .catch((err) => res.status(500).send(err))
-})
-
-router.post('/hotels', (req, res) => {
-  // let {data} = req.body;
-  // console.log(data, 'hotels data');
-  console.log(req.body, 'req.body');
-
-  Amadeus.getHotels(req.body)
-    .then((arr) => {
-      console.log('hello', arr)
-      const newArr = arr.map((result) => {
-        const filteredResult = {};
-        // store the hotelId
-        filteredResult["hotelId"] = result["hotel"]["hotelId"];
-        // store the name
-        filteredResult["name"] = result["hotel"]["name"];
-        // store the location
-        const postalCode = result["hotel"]["address"]["postalCode"]
-          ? " " + result["hotel"]["address"]["postalCode"]
-          : "";
-        const address =
-          result["hotel"]["address"]["lines"][0] +
-          " " +
-          result["hotel"]["address"]["cityName"] +
-          " " +
-          result["hotel"]["address"]["countryCode"] +
-          postalCode;
-        filteredResult.latitude = result.hotel.latitude;
-        filteredResult.longitude = result.hotel.longitude;
-        filteredResult["address"] = address;
-        filteredResult["rating"] = result["hotel"]["rating"];
-        // store the hotel amenities
-        filteredResult["amenities"] = result["hotel"]["amenities"];
-        filteredResult["milesFromCenter"] =
-          result["hotel"]["hotelDistance"]["distance"];
-        return filteredResult;
-      });
-
-      return newArr;
-      res.status(200).send(newArr)
+    .catch((err) => {
+      console.log(err)
+      res.status(500).send(err)
     })
-    .catch((err) => res.status(500).send(err))
-})
-
-router.get('/hotel_offers', (req, res) => {
-  Amadeus.getHotelOffers()
-    .then((results) => res.status(200).send(results))
-    .catch((err) => res.status(500).send(err))
-})
-
-router.get('/POI', (req, res) => {
-  Amadeus.getPOIS()
-    .then((results) => res.status(200).send(results))
-    .catch((err) => res.status(500).send(err))
 })
 
 module.exports = router;

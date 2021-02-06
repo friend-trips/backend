@@ -12,24 +12,30 @@ module.exports = {
         keyword,
         subType
       })
-      .then((res) => {
-        let cities = res.data.map((row) => {
-          return {
-            name: row.name,
-            cityCode: row.iataCode
-          }
+        .then((res) => {
+          let cities = res.data.map((row) => {
+            return {
+              name: row.name,
+              cityCode: row.iataCode
+            }
+          })
+          resolve(cities);
         })
-        resolve(cities);
-      })
-      .catch((err) => {
-        console.log(err)
-        reject(err);
-      })
+        .catch((err) => {
+          console.log(err)
+          reject(err);
+        })
     })
   },
-  getFlights: () => {
+  getFlights: (data) => {
     return new Promise((resolve, reject) => {
-
+      amadeus.shopping.flightOffersSearch.get(data)
+        .then((data) => {
+          resolve(data)
+        })
+        .catch((err) => {
+          resolve(err);
+        })
     })
   },
   getHotels: (data) => {
@@ -40,13 +46,22 @@ module.exports = {
           console.log(err);
           resolve(err);
         })
-      })
+    })
   },
   getHotelOffers: () => {
 
   },
-  getPOIS: () => {
+  getPOIS: (data) => {
+    return new Promise((resolve, reject) => {
+      amadeus.referenceData.locations.pointsOfInterest.get(data)
+      .then((data) => {
+          resolve(data)
+        })
+        .catch((err) => {
+          console.log(err, 'error');
+          reject(err);
+        })
 
-  },
-
+    })
+},
 }
