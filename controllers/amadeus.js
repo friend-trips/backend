@@ -17,6 +17,9 @@ router.get('/flights', (req, res) => {
 
 router.get('/hotels', (req, res) => {
   let {data} = req.body;
+  console.log(data, 'hotels data');
+  console.log(req.body, 'req.body');
+
   Amadeus.getHotels(data)
     .then((arr) => {
       const newArr = arr.map((result) => {
