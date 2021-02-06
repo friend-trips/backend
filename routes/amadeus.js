@@ -10,3 +10,14 @@ router.get('/POI', amadeusController);
 
 module.exports = router;
 
+// ?
+// keyword
+// =
+// value&
+// let result = '?';
+
+// for (let key in obj) {
+//   result += key + '=' + obj[key] + '&'
+// }
+
+// return result

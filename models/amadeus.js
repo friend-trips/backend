@@ -27,4 +27,23 @@ module.exports = {
       })
     })
   },
+  getFlights: () => {
+    return new Promise((resolve, reject) => {
+
+    })
+  },
+  getHotels: (data) => {
+    return new Promise((resolve, reject) => {
+      amadeus.shopping.hotelOffers.get(data)
+        .then(resolve)
+        .catch(reject)
+      })
+  },
+  getHotelOffers: () => {
+
+  },
+  getPOIS: () => {
+
+  },
+
 }
