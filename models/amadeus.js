@@ -50,10 +50,14 @@ module.exports = {
   },
   getHotelOffers: (offerQuery) => {
     return new Promise((resolve, reject) => {
+      console.log(offerQuery, 'offerquery')
       amadeus.shopping.hotelOffersByHotel
         .get(offerQuery)
         .then(resolve)
-        .catch(reject)
+        .catch((err) => {
+          console.log(err);
+          reject(err)
+        })
     })
 
   },

@@ -3,7 +3,7 @@ const router = express.Router({ 'caseSensitive': true });
 const Amadeus = require('../models/amadeus');
 
 router.get('/city_code', (req, res) => {
-  let {keyword, subType} = req.query;
+  let { keyword, subType } = req.query;
   console.log(keyword, subType, 'city code')
   Amadeus.getCityCode(keyword, subType)
     .then((results) => res.status(200).send(results))
@@ -16,7 +16,7 @@ router.post('/hotels', (req, res) => {
   console.log(req.body, 'req.body');
 
   Amadeus.getHotels(req.body)
-    .then(({data}) => {
+    .then(({ data }) => {
       const newArr = data.map((result) => {
         const filteredResult = {};
         // store the hotelId
@@ -52,16 +52,20 @@ router.post('/hotels', (req, res) => {
 })
 
 router.post('/hotel_offers', (req, res) => {
+  console.log('req body', req.body);
   Amadeus.getHotelOffers(req.body)
-    .then((result) => res.status(200).send(result.data.offers))
-    .catch((err) => res.status(500).send(err))
+    .then((data) => {
+      console.log('req body', data);
+      res.status(200).send(data.data.offers)}
+    )
+  .catch((err) => res.status(500).send(err))
 })
 
 router.get('/POI', (req, res) => {
-  let {latitude, longitude} = req.query;
-  console.log({latitude: Number(latitude), longitude: Number(longitude)}, 'query')
-  Amadeus.getPOIS({latitude: Number(latitude), longitude: Number(longitude)})
-    .then(({data}) => res.status(200).send(data))
+  let { latitude, longitude } = req.query;
+  console.log({ latitude: Number(latitude), longitude: Number(longitude) }, 'query')
+  Amadeus.getPOIS({ latitude: Number(latitude), longitude: Number(longitude) })
+    .then(({ data }) => res.status(200).send(data))
     .catch((err) => {
       console.log(err);
       res.status(500).send(err)
@@ -70,7 +74,7 @@ router.get('/POI', (req, res) => {
 
 router.post('/flights', (req, res) => {
   Amadeus.getFlights(req.body)
-    .then(({data}) => {
+    .then(({ data }) => {
       const filterData = (array) => {
         function changeTime(timeString) {
           if (timeString.slice(0, 2) > 12) {
