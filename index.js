@@ -18,6 +18,7 @@ const poisRoute = require('./routes/pois.js');
 const votesRoute = require('./routes/votes.js');
 const itineraryRoute = require('./routes/itinerary.js');
 const amadeusRoute = require('./routes/amadeus.js');
+const mapboxRoute = require('./routes/mapbox.js');
 
 // const savedEventsRoute = require('./routes/saved_events.js');
 
@@ -38,6 +39,7 @@ app.use('/pois', poisRoute);
 app.use('/api/votes', votesRoute);
 app.use('/api/itinerary', itineraryRoute);
 app.use('/api/amadeus', amadeusRoute);
+app.use('/api/mapbox', mapboxRoute);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello friend!');
